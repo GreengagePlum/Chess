@@ -1,44 +1,26 @@
 package me.erken.efe.chess.model;
 
 public abstract class Piece {
+    private static int idCounter = 0;
+    private final int id;
     private final Color color;
-    private int positionX, positionY;
 
-    public Piece(Color color, int positionX, int positionY) {
+    public Piece(Color color) {
         this.color = color;
-        this.positionX = positionX;
-        this.positionY = positionY;
+        id = idCounter;
+        idCounter++;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public int getPositionX() {
-        return positionX;
+    public int getId() {
+        return id;
     }
 
-    public int getPositionY() {
-        return positionY;
-    }
+    protected abstract boolean isValidMove(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
 
-    public void setPositionX(int positionX) {
-        this.positionX = positionX;
-    }
+    protected abstract Coordinates[] movablePositions(Coordinates sourceCoords, Board board);
 
-    public void setPositionY(int positionY) {
-        this.positionY = positionY;
-    }
-
-    public void setPosition(int positionX, int positionY) {
-        setPositionX(positionX);
-        setPositionY(positionY);
-    }
-
-    @Override
-    public String toString() {
-        return "Pièce aux coordonnées : (%d, %d)".formatted(positionX, positionY);
-    }
-
-    protected abstract boolean isValidMove(int positionX, int positionY, Board board);
 }
