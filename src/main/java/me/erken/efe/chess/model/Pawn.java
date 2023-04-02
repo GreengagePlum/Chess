@@ -21,7 +21,7 @@ public final class Pawn extends Piece {
 
     @Override
     protected boolean isValidMove(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
-        if (destinationCoords.x >= Board.WIDTH || destinationCoords.x < 0 || destinationCoords.y >= Board.HEIGHT || destinationCoords.y < 0) {
+        if (!coordCheck(destinationCoords)) {
             return false;
         }
         if (sourceCoords.y <= destinationCoords.y || Math.abs(sourceCoords.x - destinationCoords.x) >= 2) {

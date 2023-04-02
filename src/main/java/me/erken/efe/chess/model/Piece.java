@@ -19,6 +19,10 @@ public abstract class Piece {
         return id;
     }
 
+    public boolean coordCheck(Coordinates coords) {
+        return coords.x < Board.WIDTH && coords.x >= 0 && coords.y < Board.HEIGHT && coords.y >= 0;
+    }
+
     protected abstract boolean isValidMove(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
 
     protected abstract Coordinates[] movablePositions(Coordinates sourceCoords, Board board);
