@@ -81,8 +81,8 @@ public class Board {
 
     private void highlightMoves(Piece piece) {
         Coordinates[] moves = piece.movablePositions(findPiece(piece), this);
-        for (Coordinates coords : moves) {
-            getSquare(coords).setState(SquareState.HIGHLIGHTED);
+        for (int i = 0; moves[i] != null; i++) {
+            getSquare(moves[i]).setState(SquareState.HIGHLIGHTED);
         }
     }
 
