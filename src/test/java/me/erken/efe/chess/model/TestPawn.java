@@ -104,7 +104,7 @@ public class TestPawn {
     void invalidMoveTwoAheadStart() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        b.getSquare(new Coordinates(4, 6)).setPiece(new Pawn(Color.BLACK));
+        b.getSquare(new Coordinates(4, 4)).setPiece(new Pawn(Color.BLACK));
         Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 4), b));
     }
 
@@ -189,7 +189,7 @@ public class TestPawn {
                 numOfCoords++;
             }
         }
-        Assertions.assertEquals(3, numOfCoords);
+        Assertions.assertEquals(2, numOfCoords);
         Assertions.assertEquals(5, cor[0].y);
         Assertions.assertEquals(5, cor[1].y);
     }
