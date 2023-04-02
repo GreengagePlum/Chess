@@ -100,9 +100,4 @@ public class Board {
             }
         }
     }
-
-    public void movePiece(Square source, Square destination) {
-        destination.setPiece(source.getPiece());
-        source.setPiece(null);
-    }
 }
