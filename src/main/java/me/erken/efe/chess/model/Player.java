@@ -40,7 +40,16 @@ public class Player {
         }
     }
 
-    public void makeMove() {
-        // À continuer d'ici...
+    public void makeMove(Square destination, MoveHistory history, Board board) {
+        Move move = new Move(this, selection, destination);
+        try {
+            move.executeMove(board);
+            history.addMove(move);
+        } catch (IllegalMoveException me) {
+            System.out.println("Coup impossible");
+        } finally {
+            this.unsetSelection();
+            board.clearSquares();
+        }
     }
 }
