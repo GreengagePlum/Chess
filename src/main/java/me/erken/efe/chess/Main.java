@@ -17,9 +17,10 @@ public class Main {
                     } else if (p.getColor() == Color.WHITE) {
                         System.out.print("w ");
                     }
-                } catch (NullPointerException np) {
+                } catch (NullPointerException ignored) {
                 }
             }
+            System.out.println();
         }
         System.out.println();
     }
