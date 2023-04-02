@@ -3,6 +3,8 @@ package me.erken.efe.chess.model;
 public class Square {
     private Piece piece;
     private SquareState state;
+    private static int idCounter = 0;
+    private final int id;
 
     public Square() {
         this(null, SquareState.NORMAL);
@@ -11,6 +13,8 @@ public class Square {
     public Square(Piece piece, SquareState state) {
         this.piece = piece;
         this.state = state;
+        id = idCounter;
+        idCounter++;
     }
 
     public Piece getPiece() {
@@ -19,6 +23,10 @@ public class Square {
 
     public SquareState getState() {
         return state;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void setPiece(Piece piece) {
