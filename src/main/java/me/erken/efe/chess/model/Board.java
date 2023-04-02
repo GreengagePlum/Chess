@@ -68,6 +68,17 @@ public class Board {
         return grid[coords.y][coords.x];
     }
 
+    public Coordinates findSquare(Square square) {
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                if (grid[y][x].getId() == square.getId()) {
+                    return new Coordinates(x, y);
+                }
+            }
+        }
+        return null;
+    }
+
     public Coordinates findPiece(Piece piece) {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
