@@ -1,6 +1,9 @@
 package me.erken.efe.chess.model;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 
 public final class Pawn extends Piece {
 
@@ -19,49 +22,134 @@ public final class Pawn extends Piece {
         firstMove = false;
     }
 
-    @Override
-    protected boolean isValidMove(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
-        if (!coordCheck(destinationCoords)) {
-            return false;
+    private boolean pathCheckStraight(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        boolean preCheck;
+        int diffY = destinationCoords.y - sourceCoords.y;
+        int diffX = destinationCoords.x - sourceCoords.x;
+        if (this.getColor() == Color.WHITE) {
+            preCheck = 0 > diffY && diffY >= ((firstMove) ? -2 : -1) && diffX == 0;
+        } else {
+            preCheck = 0 < diffY && diffY <= ((firstMove) ? 2 : 1) && diffX == 0;
         }
-        if (sourceCoords.y <= destinationCoords.y || Math.abs(sourceCoords.x - destinationCoords.x) >= 2) {
-            return false;
+        if (preCheck) {
+            preCheck = destinationPieceCheck(destinationCoords, board, false);
         }
-        if (sourceCoords.x == destinationCoords.x && destinationCoords.y >= sourceCoords.y - ((firstMove) ? 2 : 1)) {
-            for (int y = sourceCoords.y - 1; y >= destinationCoords.y; y--) {
-                if (board.getSquare(new Coordinates(sourceCoords.x, y)).getPiece() != null) {
-                    return false;
-                }
-            }
-        } else if (Math.abs(sourceCoords.x - destinationCoords.x) == 1 && Math.abs(sourceCoords.y - destinationCoords.y) == 1) {
-            Piece p = board.getSquare(destinationCoords).getPiece();
-            if (p == null || p.getColor() == this.getColor()) {
+        return preCheck;
+    }
+
+    private boolean pathCheckDiag(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        boolean preCheck;
+        int diffY = destinationCoords.y - sourceCoords.y;
+        int diffX = destinationCoords.x - sourceCoords.x;
+        if (this.getColor() == Color.WHITE) {
+            preCheck = diffY == -1 && Math.abs(diffX) == 1;
+        } else {
+            preCheck = diffY == 1 && Math.abs(diffX) == 1;
+        }
+        if (preCheck) {
+            preCheck = destinationPieceCheck(destinationCoords, board, true);
+        }
+        return preCheck;
+    }
+
+    private boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        return pathCheckStraight(sourceCoords, destinationCoords, board) || pathCheckDiag(sourceCoords, destinationCoords, board);
+    }
+
+    private boolean destinationPieceCheck(Coordinates destinationCoords, Board board, boolean diagMove) {
+        Piece destPiece = board.getSquare(destinationCoords).getPiece();
+        if (diagMove) {
+            return destPiece != null && destPiece.getColor() != this.getColor();
+        }
+        return destPiece == null;
+    }
+
+    private boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        if (!firstMove && destinationCoords.x != sourceCoords.x) {
+            return true;
+        }
+        int yEvolution = ((destinationCoords.y - sourceCoords.y < 0) ? -1 : 1);
+        int y = sourceCoords.y + yEvolution;
+        while (y != destinationCoords.y) {
+            Piece p = board.getSquare(new Coordinates(sourceCoords.x, y)).getPiece();
+            if (p != null) {
                 return false;
             }
-        } else {
-            return false;
+            y += yEvolution;
         }
         return true;
     }
 
-    protected Coordinates[] movablePositions(Coordinates sourceCoords, Board board) {
-        Coordinates[] result = new Coordinates[4];
-        int index = 0;
-        if (isValidMove(sourceCoords, new Coordinates(sourceCoords.x - 1, sourceCoords.y - 1), board)) {
-            result[index] = new Coordinates(sourceCoords.x - 1, sourceCoords.y - 1);
-            index++;
+    @Override
+    protected boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        return coordinateCheck(destinationCoords)
+                && (pathCheck(sourceCoords, destinationCoords, board) && obstructionCheck(sourceCoords, destinationCoords, board));
+    }
+
+    @Override
+    protected boolean isAttackingPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        return coordinateCheck(destinationCoords) && pathCheckDiag(sourceCoords, destinationCoords, board);
+    }
+
+    private List<Coordinates> traversePath(Coordinates sourceCoords, Board board, Predicate3<Coordinates, Coordinates, Board> checker) {
+        List<Coordinates> result = new LinkedList<>();
+        int yEvolution = (this.getColor() == Color.WHITE) ? -1 : 1;
+        if (checker.accept(sourceCoords, new Coordinates(sourceCoords.x - 1, sourceCoords.y + yEvolution), board)) {
+            result.add(new Coordinates(sourceCoords.x - 1, sourceCoords.y - 1));
         }
-        if (isValidMove(sourceCoords, new Coordinates(sourceCoords.x + 1, sourceCoords.y - 1), board)) {
-            result[index] = new Coordinates(sourceCoords.x + 1, sourceCoords.y - 1);
-            index++;
+        if (checker.accept(sourceCoords, new Coordinates(sourceCoords.x + 1, sourceCoords.y + yEvolution), board)) {
+            result.add(new Coordinates(sourceCoords.x + 1, sourceCoords.y - 1));
         }
-        if (isValidMove(sourceCoords, new Coordinates(sourceCoords.x, sourceCoords.y - 1), board)) {
-            result[index] = new Coordinates(sourceCoords.x, sourceCoords.y - 1);
-            index++;
+        if (checker.accept(sourceCoords, new Coordinates(sourceCoords.x, sourceCoords.y + yEvolution), board)) {
+            result.add(new Coordinates(sourceCoords.x, sourceCoords.y - 1));
         }
-        if (isValidMove(sourceCoords, new Coordinates(sourceCoords.x, sourceCoords.y - 2), board)) {
-            result[index] = new Coordinates(sourceCoords.x, sourceCoords.y - 2);
+        // can be optimized for firstMove
+        if (checker.accept(sourceCoords, new Coordinates(sourceCoords.x, sourceCoords.y + 2 * yEvolution), board)) {
+            result.add(new Coordinates(sourceCoords.x, sourceCoords.y - 2));
         }
         return result;
+    }
+
+    @Override
+    public void updateLegalPositions(Coordinates sourceCoords, Board board) {
+        legalPositions.clear();
+        King k = board.getKing(this.getColor());
+        if (k.isInCheck() && this.isKingProtector()) {
+            return;
+        }
+        List<Coordinates> possibilities = traversePath(sourceCoords, board, this::isLegalPosition);
+        if (k.isInCheck()) {
+            for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
+                Coordinates pos = iterator.next();
+                for (ListIterator<Piece> it = k.getAttackingPieces(); it.hasNext(); ) {
+                    Piece p = it.next();
+                    // can be optimized for jumping pieces (like Knights)
+                    if (!p.legalPositionsContains(pos) && pos != board.findPiece(p)) {
+                        iterator.remove();
+                    }
+                }
+            }
+        } else if (this.isKingProtector()) {
+            Coordinates threat = board.findPiece(this.getKingProtectorCausingPiece());
+            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getKingProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
+        }
+        legalPositions.addAll(possibilities);
+        setOppositeKingToCheck(board);
+    }
+
+    @Override
+    public void updateAttackingPositions(Coordinates sourceCoords, Board board) {
+        attackingPositions.clear();
+        attackingPositions.addAll(traversePath(sourceCoords, board, this::isAttackingPosition));
+    }
+
+    @Override
+    protected void setKingProtectorsInPath(Coordinates sourceCoords, Board board) {
+
+    }
+
+    @Override
+    protected boolean posInPathLeadingToKing(Coordinates sourceCoords, Coordinates toTest, Board board) {
+        return false;
     }
 }
