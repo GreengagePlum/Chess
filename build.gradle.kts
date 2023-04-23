@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("application")
 }
 
 group = "me.erken.efe.chess"
@@ -22,4 +23,8 @@ tasks.jar {
     manifest {
         from("MANIFEST.MF")
     }
+}
+
+application {
+    mainClass.set("me.erken.efe.chess.Main")
 }
