@@ -7,4 +7,9 @@ public class Coordinates {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Coordinates && x == ((Coordinates) obj).x && y == ((Coordinates) obj).y;
+    }
 }
