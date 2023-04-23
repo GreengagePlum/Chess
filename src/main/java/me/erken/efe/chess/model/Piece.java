@@ -59,8 +59,29 @@ public abstract class Piece {
         return coords.x < Board.WIDTH && coords.x >= 0 && coords.y < Board.HEIGHT && coords.y >= 0;
     }
 
-    protected abstract boolean isValidMove(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
+    protected abstract boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
 
-    protected abstract Coordinates[] movablePositions(Coordinates sourceCoords, Board board);
+    protected abstract boolean isAttackingPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
 
+    protected abstract void updateLegalPositions(Coordinates sourceCoords, Board board);
+
+    protected abstract void updateAttackingPositions(Coordinates sourceCoords, Board board);
+
+    protected void updateAllPositions(Coordinates sourceCoords, Board board) {
+        // can be optimized
+        updateLegalPositions(sourceCoords, board);
+        updateAttackingPositions(sourceCoords, board);
+    }
+
+    protected abstract void setKingProtectorsInPath(Coordinates sourceCoords, Board board);
+
+    protected void setOppositeKingToCheck(Board board) {
+        Color oppositeColor = (this.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK;
+        if (legalPositions.contains(board.findPiece(board.getKing(oppositeColor)))) {
+            board.getKing(oppositeColor).setInCheck(true);
+            board.getKing(oppositeColor).addAttackingPiece(this);
+        }
+    }
+
+    protected abstract boolean posInPathLeadingToKing(Coordinates sourceCoords, Coordinates toTest, Board board);
 }
