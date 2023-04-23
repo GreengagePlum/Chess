@@ -11,10 +11,8 @@ public class TestKnight {
         Board b = new Board();
         Knight k = (Knight) b.getSquare(new Coordinates(1, 7)).getPiece();
         Coordinates source = new Coordinates(1, 7);
-        Coordinates[] moves = k.movablePositions(source, b);
-        int length = 0;
-        for (; moves[length] != null; length++) ;
-        Assertions.assertEquals(2, length);
+        k.updateLegalPositions(source, b);
+        Assertions.assertEquals(2, k.legalPositions.size());
     }
 
     @Test
@@ -24,10 +22,8 @@ public class TestKnight {
         Knight k = new Knight(Color.WHITE);
         b.getSquare(new Coordinates(2, 4)).setPiece(k);
         Coordinates source = new Coordinates(2, 4);
-        Coordinates[] moves = k.movablePositions(source, b);
-        int length = 0;
-        for (; length < moves.length && moves[length] != null; length++) ;
-        Assertions.assertEquals(6, length);
+        k.updateLegalPositions(source, b);
+        Assertions.assertEquals(6, k.legalPositions.size());
     }
 
     @Test
@@ -37,9 +33,7 @@ public class TestKnight {
         Knight k = new Knight(Color.WHITE);
         b.getSquare(new Coordinates(2, 3)).setPiece(k);
         Coordinates source = new Coordinates(2, 3);
-        Coordinates[] moves = k.movablePositions(source, b);
-        int length = 0;
-        for (; length < moves.length && moves[length] != null; length++) ;
-        Assertions.assertEquals(8, length);
+        k.updateLegalPositions(source, b);
+        Assertions.assertEquals(8, k.legalPositions.size());
     }
 }

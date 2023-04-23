@@ -12,25 +12,73 @@ public class TestPiece {
     void constructorTest() {
         Piece p = new Piece(Color.BLACK) {
             @Override
-            protected boolean isValidMove(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+            protected boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
                 return false;
             }
 
             @Override
-            protected Coordinates[] movablePositions(Coordinates sourceCoords, Board board) {
-                return new Coordinates[0];
+            protected boolean isAttackingPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+                return false;
+            }
+
+            @Override
+            protected void updateLegalPositions(Coordinates sourceCoords, Board board) {
+            }
+
+            @Override
+            protected void updateAttackingPositions(Coordinates sourceCoords, Board board) {
+
+            }
+
+            @Override
+            protected void updateAllPositions(Coordinates sourceCoords, Board board) {
+
+            }
+
+            @Override
+            protected void setKingProtectorsInPath(Coordinates sourceCoords, Board board) {
+
+            }
+
+            @Override
+            protected boolean posInPathLeadingToKing(Coordinates sourceCoords, Coordinates toTest, Board board) {
+                return false;
             }
         };
         Assertions.assertEquals(Color.BLACK, p.getColor());
         p = new Piece(Color.WHITE) {
             @Override
-            protected boolean isValidMove(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+            protected boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
                 return false;
             }
 
             @Override
-            protected Coordinates[] movablePositions(Coordinates sourceCoords, Board board) {
-                return new Coordinates[0];
+            protected boolean isAttackingPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+                return false;
+            }
+
+            @Override
+            protected void updateLegalPositions(Coordinates sourceCoords, Board board) {
+            }
+
+            @Override
+            protected void updateAttackingPositions(Coordinates sourceCoords, Board board) {
+
+            }
+
+            @Override
+            protected void updateAllPositions(Coordinates sourceCoords, Board board) {
+
+            }
+
+            @Override
+            protected void setKingProtectorsInPath(Coordinates sourceCoords, Board board) {
+
+            }
+
+            @Override
+            protected boolean posInPathLeadingToKing(Coordinates sourceCoords, Coordinates toTest, Board board) {
+                return false;
             }
         };
         Assertions.assertEquals(Color.WHITE, p.getColor());
