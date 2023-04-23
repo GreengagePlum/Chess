@@ -3,18 +3,16 @@ package me.erken.efe.chess.model;
 public class Square {
     private Piece piece;
     private SquareState state;
-    private static int idCounter = 0;
-    private final int id;
+    private SquareDanger danger;
 
     public Square() {
-        this(null, SquareState.NORMAL);
+        this(null, SquareState.NORMAL, SquareDanger.PEACEFUL);
     }
 
-    public Square(Piece piece, SquareState state) {
+    public Square(Piece piece, SquareState state, SquareDanger danger) {
         this.piece = piece;
         this.state = state;
-        id = idCounter;
-        idCounter++;
+        this.danger = danger;
     }
 
     public Piece getPiece() {
@@ -25,8 +23,8 @@ public class Square {
         return state;
     }
 
-    public int getId() {
-        return id;
+    public SquareDanger getDanger() {
+        return danger;
     }
 
     public void setPiece(Piece piece) {
@@ -35,5 +33,9 @@ public class Square {
 
     public void setState(SquareState state) {
         this.state = state;
+    }
+
+    public void setDanger(SquareDanger danger) {
+        this.danger = danger;
     }
 }
