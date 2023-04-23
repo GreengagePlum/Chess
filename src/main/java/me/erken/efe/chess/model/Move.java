@@ -21,7 +21,7 @@ public class Move {
     public void executeMove(Board board) throws IllegalMoveException {
         Piece origin = this.source.getPiece();
         if (!executed) {
-            if (origin.isValidMove(board.findSquare(source), board.findSquare(destination), board)) {
+            if (origin.isLegalPosition(board.findSquare(source), board.findSquare(destination), board)) {
                 this.destination.setPiece(this.source.getPiece());
                 this.source.setPiece(null);
                 executed = true;
