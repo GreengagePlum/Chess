@@ -4,6 +4,8 @@ public class Board {
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
     private final Square[][] grid;
+    private final King kingBlack = new King(Color.BLACK);
+    private final King kingWhite = new King(Color.WHITE);
 
     public Board() {
         grid = new Square[HEIGHT][WIDTH];
@@ -51,8 +53,8 @@ public class Board {
     }
 
     private void fillKing() {
-        grid[0][4].setPiece(new King(Color.BLACK));
-        grid[HEIGHT - 1][4].setPiece(new King(Color.WHITE));
+        grid[0][4].setPiece(kingBlack);
+        grid[HEIGHT - 1][4].setPiece(kingWhite);
     }
 
     private void fillAllPieces() {
@@ -71,7 +73,7 @@ public class Board {
     public Coordinates findSquare(Square square) {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
-                if (grid[y][x].getId() == square.getId()) {
+                if (grid[y][x] == square) {
                     return new Coordinates(x, y);
                 }
             }
@@ -90,10 +92,22 @@ public class Board {
         return null;
     }
 
+    public King getKing(Color color) {
+        return (color == Color.BLACK) ? kingBlack : kingWhite;
+    }
+
+    public void setKingStatus(Color color, boolean inCheckStatus) {
+        if ((color == Color.BLACK)) {
+            kingBlack.setInCheck(inCheckStatus);
+        } else {
+            kingWhite.setInCheck(inCheckStatus);
+        }
+    }
+
     private void highlightMoves(Piece piece) {
-        Coordinates[] moves = piece.movablePositions(findPiece(piece), this);
-        for (int i = 0; moves[i] != null; i++) {
-            getSquare(moves[i]).setState(SquareState.HIGHLIGHTED);
+        for (Coordinates pos :
+                piece.legalPositions) {
+            getSquare(pos).setState(SquareState.HIGHLIGHTED);
         }
     }
 
@@ -104,10 +118,41 @@ public class Board {
         }
     }
 
-    public void clearSquares() {
+    public void clearStateSquares() {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 grid[i][j].setState(SquareState.NORMAL);
+            }
+        }
+    }
+
+    private void clearDangerSquares() {
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                grid[i][j].setDanger(SquareDanger.PEACEFUL);
+            }
+        }
+    }
+
+    private void setAttackedSquares(Coordinates[] attackPos, Color origin) {
+        for (int i = 0; attackPos[i] != null; i++) {
+            Square current = getSquare(attackPos[i]);
+            if (current.getDanger() == SquareDanger.PEACEFUL) {
+                current.setDanger((origin == Color.BLACK) ? SquareDanger.BLACK_ATTACKING : SquareDanger.WHITE_ATTACKING);
+            } else {
+                current.setDanger(SquareDanger.BOTH_ATTACKING);
+            }
+        }
+    }
+
+    public void updateDangerSquares() {
+        clearDangerSquares();
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                Piece p = grid[i][j].getPiece();
+                if (p != null) {
+                    setAttackedSquares(p.attackingPositions.toArray(new Coordinates[0]), p.getColor());
+                }
             }
         }
     }

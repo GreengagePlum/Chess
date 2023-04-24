@@ -27,7 +27,7 @@ public class TestPawn {
     void validMoveOneAheadStart() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertTrue(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 5), b));
+        Assertions.assertTrue(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 5), b));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class TestPawn {
     void validMoveTwoAheadStart() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertTrue(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 4), b));
+        Assertions.assertTrue(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 4), b));
     }
 
     @Test
@@ -44,7 +44,7 @@ public class TestPawn {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
         p.consumeFirstMove();
-        Assertions.assertTrue(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 5), b));
+        Assertions.assertTrue(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 5), b));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class TestPawn {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
         p.consumeFirstMove();
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 4), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 4), b));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TestPawn {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
         b.getSquare(new Coordinates(3, 5)).setPiece(new Pawn(Color.BLACK));
-        Assertions.assertTrue(p.isValidMove(new Coordinates(4, 6), new Coordinates(3, 5), b));
+        Assertions.assertTrue(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(3, 5), b));
     }
 
     @Test
@@ -71,7 +71,7 @@ public class TestPawn {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
         b.getSquare(new Coordinates(5, 5)).setPiece(new Pawn(Color.BLACK));
-        Assertions.assertTrue(p.isValidMove(new Coordinates(4, 6), new Coordinates(5, 5), b));
+        Assertions.assertTrue(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(5, 5), b));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class TestPawn {
     void invalidMoveDiagLeft() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(3, 5), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(3, 5), b));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class TestPawn {
     void invalidMoveDiagRight() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(5, 5), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(5, 5), b));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class TestPawn {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
         b.getSquare(new Coordinates(4, 5)).setPiece(new Pawn(Color.BLACK));
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 5), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 5), b));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class TestPawn {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
         b.getSquare(new Coordinates(4, 4)).setPiece(new Pawn(Color.BLACK));
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 4), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 4), b));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class TestPawn {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
         b.getSquare(new Coordinates(4, 5)).setPiece(new Pawn(Color.BLACK));
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 4), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 4), b));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class TestPawn {
     void invalidMoveSamePos() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 6), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 6), b));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class TestPawn {
     void invalidMoveBehind() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(7, 7), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(7, 7), b));
     }
 
     @Test
@@ -138,7 +138,7 @@ public class TestPawn {
     void invalidMoveFarAhead() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(4, 0), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(4, 0), b));
     }
 
     @Test
@@ -146,7 +146,7 @@ public class TestPawn {
     void invalidMoveFarDiag() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(3, 4), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(3, 4), b));
     }
 
     @Test
@@ -154,7 +154,7 @@ public class TestPawn {
     void invalidMoveSide() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Assertions.assertFalse(p.isValidMove(new Coordinates(4, 6), new Coordinates(3, 6), b));
+        Assertions.assertFalse(p.isLegalPosition(new Coordinates(4, 6), new Coordinates(3, 6), b));
     }
 
     @Test
@@ -162,16 +162,10 @@ public class TestPawn {
     void movablePosInitial() {
         Board b = new Board();
         Pawn p = (Pawn) b.getSquare(new Coordinates(4, 6)).getPiece();
-        Coordinates[] cor = p.movablePositions(new Coordinates(4, 6), b);
-        int numOfCoords = 0;
-        for (int i = 0; i < cor.length; i++) {
-            if (cor[i] != null) {
-                numOfCoords++;
-            }
-        }
-        Assertions.assertEquals(2, numOfCoords);
-        Assertions.assertEquals(5, cor[0].y);
-        Assertions.assertEquals(4, cor[1].y);
+        p.updateLegalPositions(new Coordinates(4, 6), b);
+        Assertions.assertEquals(2, p.legalPositions.size());
+        Assertions.assertEquals(5, p.legalPositions.get(0).y);
+        Assertions.assertEquals(4, p.legalPositions.get(1).y);
     }
 
     @Test
@@ -182,15 +176,60 @@ public class TestPawn {
         b.getSquare(new Coordinates(3, 5)).setPiece(new Pawn(Color.BLACK));
         b.getSquare(new Coordinates(5, 5)).setPiece(new Pawn(Color.WHITE));
         b.getSquare(new Coordinates(4, 4)).setPiece(new Pawn(Color.WHITE));
-        Coordinates[] cor = p.movablePositions(new Coordinates(4, 6), b);
-        int numOfCoords = 0;
-        for (int i = 0; i < cor.length; i++) {
-            if (cor[i] != null) {
-                numOfCoords++;
-            }
-        }
-        Assertions.assertEquals(2, numOfCoords);
-        Assertions.assertEquals(5, cor[0].y);
-        Assertions.assertEquals(5, cor[1].y);
+        p.updateLegalPositions(new Coordinates(4, 6), b);
+        Assertions.assertEquals(2, p.legalPositions.size());
+        Assertions.assertEquals(5, p.legalPositions.get(0).y);
+        Assertions.assertEquals(5, p.legalPositions.get(1).y);
     }
+
+    @Test
+    @DisplayName("Set opposite king to Check")
+    void setOppositeKingToCheck() {
+        Board b = new Board();
+        Pawn p = (Pawn) b.getSquare(new Coordinates(2, 6)).getPiece();
+        b.getSquare(new Coordinates(3, 5)).setPiece(b.getKing(Color.BLACK));
+        b.getSquare(new Coordinates(4, 0)).setPiece(null);
+        Coordinates source = new Coordinates(2, 6);
+        Assertions.assertFalse(b.getKing(Color.BLACK).isInCheck());
+        p.updateAllPositions(source, b);
+        Assertions.assertTrue(b.getKing(Color.BLACK).isInCheck());
+    }
+
+    @Test
+    @DisplayName("Move set when king is in check")
+    void moveSetKingInCheck() {
+        Board b = new Board();
+        Pawn p = (Pawn) b.getSquare(new Coordinates(2, 6)).getPiece();
+        b.getSquare(new Coordinates(1, 5)).setPiece(b.getKing(Color.WHITE));
+        b.getSquare(new Coordinates(4, 7)).setPiece(null);
+        Bishop p2 = new Bishop(Color.BLACK);
+        b.getSquare(new Coordinates(4, 2)).setPiece(p2);
+        Coordinates source = new Coordinates(2, 6);
+        p.updateAllPositions(source, b);
+        Assertions.assertEquals(2, p.legalPositions.size());
+        p2.updateAllPositions(new Coordinates(4, 2), b);
+        p.updateAllPositions(source, b);
+        Assertions.assertEquals(1, p.legalPositions.size());
+    }
+
+    @Test
+    @DisplayName("Move set when king protector")
+    void moveSetKingProtector() {
+        Board b = new Board();
+        Pawn p = new Pawn(Color.WHITE);
+        b.getSquare(new Coordinates(3, 3)).setPiece(p);
+        b.getSquare(new Coordinates(1, 5)).setPiece(b.getKing(Color.WHITE));
+        b.getSquare(new Coordinates(4, 7)).setPiece(null);
+        Bishop p2 = new Bishop(Color.BLACK);
+        b.getSquare(new Coordinates(4, 2)).setPiece(p2);
+        Coordinates source = new Coordinates(3, 3);
+        p.updateAllPositions(source, b);
+        Assertions.assertEquals(2, p.legalPositions.size());
+        p2.updateAllPositions(new Coordinates(4, 2), b);
+        p2.setKingProtectorsInPath(new Coordinates(4, 2), b);
+        p.updateAllPositions(source, b);
+        Assertions.assertEquals(1, p.legalPositions.size());
+    }
+
+
 }
