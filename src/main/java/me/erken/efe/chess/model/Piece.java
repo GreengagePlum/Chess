@@ -47,6 +47,10 @@ public abstract class Piece {
         return legalPositions.contains(coordinates);
     }
 
+    public int legalPositionsCount() {
+        return legalPositions.size();
+    }
+
     public boolean isKingProtector() {
         return kingProtector;
     }
