@@ -35,6 +35,10 @@ public final class King extends Piece {
         return attackingPieces.listIterator();
     }
 
+    public int getAttackingPiecesCount() {
+        return attackingPieces.size();
+    }
+
     private boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
         return Math.abs(destinationCoords.x - sourceCoords.x) == 1 && Math.abs(destinationCoords.y - sourceCoords.y) == 1;
     }
