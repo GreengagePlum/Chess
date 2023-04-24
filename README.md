@@ -118,14 +118,14 @@ qui n'a que des versions stables et complètes.
 
 La signification des emojis utilisé dans les descriptions des commits git.
 
-Emoji | Signification
-:-|:-
-✨ NEW | Nouveau fichier ou fonctionnalité
-🔧 UPDATE | Mise à jour d'une partie de programme
-🔨 CONFIG | Manipulation des fichiers de configuration comme makefile ou doxyfile
-♻️ REFACTOR | Réécriture d'une partie du programme
-🐛 BUGFIX | Une correction de bogue
-🔥 DELETION | Suppression d'un fichier ou d'une fonctionnalité
-📝 DOC | Manipulation de la documentation
-🎉 EPOCH | Le début du projet
-🚀 RELEASE | Une nouvelle version du programme
+| Emoji       | Signification                                                         |
+|:------------|:----------------------------------------------------------------------|
+| ✨ NEW       | Nouveau fichier ou fonctionnalité                                     |
+| 🔧 UPDATE   | Mise à jour d'une partie de programme                                 |
+| 🔨 CONFIG   | Manipulation des fichiers de configuration comme makefile ou doxyfile |
+| ♻️ REFACTOR | Réécriture d'une partie du programme                                  |
+| 🐛 BUGFIX   | Une correction de bogue                                               |
+| 🔥 DELETION | Suppression d'un fichier ou d'une fonctionnalité                      |
+| 📝 DOC      | Manipulation de la documentation                                      |
+| 🎉 EPOCH    | Le début du projet                                                    |
+| 🚀 RELEASE  | Une nouvelle version du programme                                     |
