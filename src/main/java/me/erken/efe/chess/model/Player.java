@@ -17,7 +17,7 @@ public class Player {
         selection = square;
     }
 
-    private void unsetSelection() {
+    private void clearSelection() {
         selection = null;
     }
 
@@ -25,22 +25,23 @@ public class Player {
         Piece p = square.getPiece();
         if (p == null || p.getColor() != color) {
             board.clearStateSquares();
-            this.unsetSelection();
+            this.clearSelection();
         } else {
             board.selectSquare(square);
             this.setSelection(square);
         }
     }
 
-    public void makeMove(Square destination, MoveHistory history, Board board) {
+    public void makeMove(Square destination, MoveHistory history, Board board) throws IllegalMoveException {
+        if (selection == null) {
+            return;
+        }
         Move move = new Move(this, selection, destination);
         try {
-            move.executeMove(board);
+            move.doMove(board);
             history.addMove(move);
-        } catch (IllegalMoveException me) {
-            System.out.println("Coup impossible");
         } finally {
-            this.unsetSelection();
+            this.clearSelection();
             board.clearStateSquares();
         }
     }
