@@ -92,7 +92,7 @@ public final class Bishop extends Piece {
                 for (Coordinates pos2 :
                         secondJump) {
                     Piece p2 = board.getSquare(pos2).getPiece();
-                    if (p2 != null && pathCheck(sourceCoords, pos2) && p2.getColor() != getColor() && p2 instanceof King) {
+                    if (p2 instanceof King && p2.getColor() != getColor() && pathCheck(sourceCoords, pos2)) {
                         p.setKingProtector(true);
                         p.setKingProtectorCausingPiece(this);
                     }
@@ -132,10 +132,11 @@ public final class Bishop extends Piece {
         if (k.isInCheck()) {
             for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
                 Coordinates pos = iterator.next();
+                int attackersCount = k.getAttackingPiecesCount();
                 for (ListIterator<Piece> it = k.getAttackingPieces(); it.hasNext(); ) {
                     Piece p = it.next();
                     // can be optimized for jumping pieces (like Knights)
-                    if (!p.legalPositionsContains(pos) && pos != board.findPiece(p)) {
+                    if (!p.legalPositionsContains(pos) && !(pos.equals(board.findPiece(p)) && attackersCount == 1)) {
                         iterator.remove();
                     }
                 }

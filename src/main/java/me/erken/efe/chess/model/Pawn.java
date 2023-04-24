@@ -121,10 +121,11 @@ public final class Pawn extends Piece {
         if (k.isInCheck()) {
             for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
                 Coordinates pos = iterator.next();
+                int attackersCount = k.getAttackingPiecesCount();
                 for (ListIterator<Piece> it = k.getAttackingPieces(); it.hasNext(); ) {
                     Piece p = it.next();
                     // can be optimized for jumping pieces (like Knights)
-                    if (!p.legalPositionsContains(pos) && pos != board.findPiece(p)) {
+                    if (!p.legalPositionsContains(pos) && !(pos.equals(board.findPiece(p)) && attackersCount == 1)) {
                         iterator.remove();
                     }
                 }
