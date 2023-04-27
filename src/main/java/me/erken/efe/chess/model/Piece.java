@@ -67,6 +67,10 @@ public abstract class Piece {
 
     protected abstract boolean isAttackingPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
 
+    abstract boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords);
+
+    abstract boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
+
     protected abstract void updateLegalPositions(Coordinates sourceCoords, Board board);
 
     protected abstract void updateAttackingPositions(Coordinates sourceCoords, Board board);

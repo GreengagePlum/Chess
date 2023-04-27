@@ -21,12 +21,15 @@ public class Player {
         selection = null;
     }
 
+    public Square getSelection() {
+        return selection;
+    }
+
     public void makeSelection(Square square, Board board) {
+        board.clearStateSquares();
+        this.clearSelection();
         Piece p = square.getPiece();
-        if (p == null || p.getColor() != color) {
-            board.clearStateSquares();
-            this.clearSelection();
-        } else {
+        if (p != null && p.getColor() == color) {
             board.selectSquare(square);
             this.setSelection(square);
         }

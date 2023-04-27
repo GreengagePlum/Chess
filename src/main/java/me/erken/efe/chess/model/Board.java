@@ -100,7 +100,9 @@ public class Board {
 
     public void clearKingsCheck() {
         kingBlack.setInCheck(false);
+        kingBlack.clearAttackingPieces();
         kingWhite.setInCheck(false);
+        kingWhite.clearAttackingPieces();
     }
 
     private void highlightMoves(Piece piece) {
@@ -139,17 +141,17 @@ public class Board {
             Square currSq = getSquare(currPos);
             if (currSq.getDanger() == SquareDanger.PEACEFUL) {
                 currSq.setDanger((origin == Color.BLACK) ? SquareDanger.BLACK_ATTACKING : SquareDanger.WHITE_ATTACKING);
-            } else {
+            } else if ((currSq.getDanger() == SquareDanger.BLACK_ATTACKING && origin == Color.WHITE) || (currSq.getDanger() == SquareDanger.WHITE_ATTACKING && origin == Color.BLACK)) {
                 currSq.setDanger(SquareDanger.BOTH_ATTACKING);
             }
         }
     }
 
-    public void updateDangerSquares() {
+    private void updateDangerSquares(Color color) {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 Piece p = grid[i][j].getPiece();
-                if (p != null) {
+                if (p != null && p.getColor() == color) {
                     setAttackedSquares(p.getAttackingPositions(), p.getColor());
                 }
             }
@@ -158,7 +160,9 @@ public class Board {
 
     public void calculateAllPieces(Color firstColorToProcess) {
         calculateColorPieces(firstColorToProcess);
+        updateDangerSquares(firstColorToProcess);
         calculateColorPieces((firstColorToProcess == Color.BLACK) ? Color.WHITE : Color.BLACK);
+        updateDangerSquares((firstColorToProcess == Color.BLACK) ? Color.WHITE : Color.BLACK);
     }
 
     private void calculateColorPieces(Color currentColor) {
@@ -183,5 +187,17 @@ public class Board {
             }
         }
         return moveCount;
+    }
+
+    public void clearPieceKingProtectors() {
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                Piece p = grid[y][x].getPiece();
+                if (p != null) {
+                    p.setKingProtector(false);
+                    p.clearKingProtectorCausingPiece();
+                }
+            }
+        }
     }
 }

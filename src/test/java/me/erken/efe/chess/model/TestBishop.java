@@ -9,9 +9,9 @@ public class TestBishop {
     @DisplayName("Invalid move left up")
     void invalidMoveLeftUp() {
         Board b = new Board();
-        Bishop p = (Bishop) b.getSquare(new Coordinates(2, 7)).getPiece();
         Coordinates source = new Coordinates(2, 7);
         Coordinates dest = new Coordinates(1, 6);
+        Bishop p = (Bishop) b.getSquare(source).getPiece();
         Assertions.assertFalse(p.isLegalPosition(source, dest, b));
     }
 
@@ -19,9 +19,9 @@ public class TestBishop {
     @DisplayName("Invalid move left bottom")
     void invalidMoveLeftBottom() {
         Board b = new Board();
-        Bishop p = (Bishop) b.getSquare(new Coordinates(2, 7)).getPiece();
         Coordinates source = new Coordinates(2, 7);
         Coordinates dest = new Coordinates(1, 8);
+        Bishop p = (Bishop) b.getSquare(source).getPiece();
         Assertions.assertFalse(p.isLegalPosition(source, dest, b));
     }
 
@@ -29,9 +29,9 @@ public class TestBishop {
     @DisplayName("Invalid move right bottom")
     void invalidMoveRightBottom() {
         Board b = new Board();
-        Bishop p = (Bishop) b.getSquare(new Coordinates(2, 7)).getPiece();
         Coordinates source = new Coordinates(2, 7);
         Coordinates dest = new Coordinates(3, 8);
+        Bishop p = (Bishop) b.getSquare(source).getPiece();
         Assertions.assertFalse(p.isLegalPosition(source, dest, b));
     }
 
@@ -39,9 +39,9 @@ public class TestBishop {
     @DisplayName("Invalid move right up")
     void invalidMoveRightUp() {
         Board b = new Board();
-        Bishop p = (Bishop) b.getSquare(new Coordinates(2, 7)).getPiece();
         Coordinates source = new Coordinates(2, 7);
         Coordinates dest = new Coordinates(3, 6);
+        Bishop p = (Bishop) b.getSquare(source).getPiece();
         Assertions.assertFalse(p.isLegalPosition(source, dest, b));
     }
 
@@ -49,9 +49,9 @@ public class TestBishop {
     @DisplayName("Invalid move right up far")
     void invalidMoveRightUpFar() {
         Board b = new Board();
-        Bishop p = (Bishop) b.getSquare(new Coordinates(2, 7)).getPiece();
         Coordinates source = new Coordinates(2, 7);
         Coordinates dest = new Coordinates(5, 4);
+        Bishop p = (Bishop) b.getSquare(source).getPiece();
         Assertions.assertFalse(p.isLegalPosition(source, dest, b));
     }
 
@@ -59,10 +59,10 @@ public class TestBishop {
     @DisplayName("Invalid move complex")
     void invalidMoveComplex() {
         Board b = new Board();
-        Bishop p = new Bishop(Color.WHITE);
-        b.getSquare(new Coordinates(3, 4)).setPiece(p);
         Coordinates source = new Coordinates(3, 4);
         Coordinates dest = new Coordinates(1, 6);
+        Bishop p = new Bishop(Color.WHITE);
+        b.getSquare(source).setPiece(p);
         Assertions.assertFalse(p.isLegalPosition(source, dest, b));
     }
 
@@ -70,10 +70,10 @@ public class TestBishop {
     @DisplayName("Valid move complex")
     void validMoveComplex() {
         Board b = new Board();
-        Bishop p = new Bishop(Color.WHITE);
-        b.getSquare(new Coordinates(3, 4)).setPiece(p);
         Coordinates source = new Coordinates(3, 4);
         Coordinates dest = new Coordinates(6, 1);
+        Bishop p = new Bishop(Color.WHITE);
+        b.getSquare(source).setPiece(p);
         Assertions.assertTrue(p.isLegalPosition(source, dest, b));
     }
 
@@ -82,12 +82,12 @@ public class TestBishop {
     void validKingProtector() {
         Board b = new Board();
         Bishop p = new Bishop(Color.WHITE);
-        b.getSquare(new Coordinates(1, 5)).setPiece(p);
+        Coordinates source = new Coordinates(1, 5);
+        b.getSquare(source).setPiece(p);
         Pawn p2 = new Pawn(Color.BLACK);
         b.getSquare(new Coordinates(2, 4)).setPiece(p2);
         King k = new King(Color.BLACK);
         b.getSquare(new Coordinates(4, 2)).setPiece(k);
-        Coordinates source = new Coordinates(1, 5);
         Assertions.assertFalse(p2.isKingProtector());
         p.updateAllPositions(source, b);
         p.setKingProtectorsInPath(source, b);
@@ -99,10 +99,10 @@ public class TestBishop {
     void setOppositeKingToCheck() {
         Board b = new Board();
         Bishop p = new Bishop(Color.WHITE);
-        b.getSquare(new Coordinates(1, 5)).setPiece(p);
+        Coordinates source = new Coordinates(1, 5);
+        b.getSquare(source).setPiece(p);
         b.getSquare(new Coordinates(4, 2)).setPiece(b.getKing(Color.BLACK));
         b.getSquare(new Coordinates(4, 0)).setPiece(null);
-        Coordinates source = new Coordinates(1, 5);
         Assertions.assertFalse(b.getKing(Color.BLACK).isInCheck());
         p.updateAllPositions(source, b);
         Assertions.assertTrue(b.getKing(Color.BLACK).isInCheck());
@@ -117,8 +117,8 @@ public class TestBishop {
         b.getSquare(new Coordinates(4, 2)).setPiece(b.getKing(Color.BLACK));
         b.getSquare(new Coordinates(4, 0)).setPiece(null);
         Bishop p2 = new Bishop(Color.BLACK);
-        b.getSquare(new Coordinates(4, 4)).setPiece(p2);
         Coordinates source = new Coordinates(4, 4);
+        b.getSquare(source).setPiece(p2);
         p2.updateAllPositions(source, b);
         Assertions.assertEquals(8, p2.legalPositions.size());
         p.updateAllPositions(new Coordinates(1, 5), b);

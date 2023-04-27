@@ -52,7 +52,7 @@ public class TestQueen {
         Assertions.assertEquals(18, q.legalPositions.size());
         p.updateAllPositions(new Coordinates(1, 5), b);
         q.updateAllPositions(source, b);
-        Assertions.assertEquals(3, q.legalPositions.size());
+        Assertions.assertEquals(2, q.legalPositions.size());
     }
 
     @Test

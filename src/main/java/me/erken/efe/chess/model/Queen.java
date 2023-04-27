@@ -10,8 +10,9 @@ public final class Queen extends Piece {
         super(color);
     }
 
-    private boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
-        return (sourceCoords != destinationCoords && Math.abs(destinationCoords.x - sourceCoords.x) == Math.abs(destinationCoords.y - sourceCoords.y))
+    @Override
+    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+        return (!sourceCoords.equals(destinationCoords) && Math.abs(destinationCoords.x - sourceCoords.x) == Math.abs(destinationCoords.y - sourceCoords.y))
                 || ((destinationCoords.x == sourceCoords.x && destinationCoords.y != sourceCoords.y)
                 || (destinationCoords.x != sourceCoords.x && destinationCoords.y == sourceCoords.y));
     }
@@ -21,7 +22,8 @@ public final class Queen extends Piece {
         return destPiece == null || destPiece.getColor() != this.getColor();
     }
 
-    private boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    @Override
+    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         int xEvolution, yEvolution;
         if (destinationCoords.x == sourceCoords.x) {
             xEvolution = 0;
@@ -42,6 +44,29 @@ public final class Queen extends Piece {
             iter.y += yEvolution;
         }
         return true;
+    }
+
+    private boolean canMoveInOneGo(Coordinates sourceCoords, Coordinates midCoords, Coordinates destinationCoords) {
+        int xEvolution, yEvolution;
+        if (midCoords.x == sourceCoords.x) {
+            xEvolution = 0;
+        } else {
+            xEvolution = ((midCoords.x - sourceCoords.x < 0) ? -1 : 1);
+        }
+        if (midCoords.y == sourceCoords.y) {
+            yEvolution = 0;
+        } else {
+            yEvolution = ((midCoords.y - sourceCoords.y < 0) ? -1 : 1);
+        }
+        Coordinates iter = new Coordinates(sourceCoords.x + xEvolution, sourceCoords.y + yEvolution);
+        while (coordinateCheck(iter)) {
+            if (iter.equals(destinationCoords)) {
+                return true;
+            }
+            iter.x += xEvolution;
+            iter.y += yEvolution;
+        }
+        return false;
     }
 
     @Override
@@ -119,11 +144,10 @@ public final class Queen extends Piece {
         if (k.isInCheck()) {
             for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
                 Coordinates pos = iterator.next();
-                int attackersCount = k.getAttackingPiecesCount();
                 for (ListIterator<Piece> it = k.getAttackingPieces(); it.hasNext(); ) {
                     Piece p = it.next();
                     // can be optimized for jumping pieces (like Knights)
-                    if (!p.legalPositionsContains(pos) && !(pos.equals(board.findPiece(p)) && attackersCount == 1)) {
+                    if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
                     }
                 }
@@ -140,6 +164,7 @@ public final class Queen extends Piece {
     public void updateAttackingPositions(Coordinates sourceCoords, Board board) {
         attackingPositions.clear();
         attackingPositions.addAll(traversePath(sourceCoords, board, this::isAttackingPosition));
+        setKingProtectorsInPath(sourceCoords, board);
     }
 
     @Override
@@ -152,7 +177,7 @@ public final class Queen extends Piece {
                 for (Coordinates pos2 :
                         secondJump) {
                     Piece p2 = board.getSquare(pos2).getPiece();
-                    if (p2 instanceof King && p2.getColor() != getColor() && pathCheck(sourceCoords, pos2)) {
+                    if (p2 instanceof King && p2.getColor() != getColor() && pathCheck(sourceCoords, pos2) && canMoveInOneGo(sourceCoords, pos, pos2)) {
                         p.setKingProtector(true);
                         p.setKingProtectorCausingPiece(this);
                     }
@@ -177,7 +202,7 @@ public final class Queen extends Piece {
         if (kingPos.y == sourceCoords.y) {
             yEvolution = 0;
         } else {
-            yEvolution = ((kingPos.x - sourceCoords.x < 0) ? -1 : 1);
+            yEvolution = ((kingPos.y - sourceCoords.y < 0) ? -1 : 1);
         }
         Coordinates tmp = new Coordinates(sourceCoords.x + xEvolution, sourceCoords.y + yEvolution);
         while (!tmp.equals(kingPos)) {

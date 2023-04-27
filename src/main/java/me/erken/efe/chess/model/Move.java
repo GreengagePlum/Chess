@@ -24,6 +24,9 @@ public class Move {
             if (origin.legalPositionsContains(board.findSquare(destination))) {
                 this.destination.setPiece(this.source.getPiece());
                 this.source.setPiece(null);
+                if (origin instanceof Pawn) {
+                    ((Pawn) origin).consumeFirstMove();
+                }
                 executed = true;
             } else {
                 throw new IllegalMoveException();

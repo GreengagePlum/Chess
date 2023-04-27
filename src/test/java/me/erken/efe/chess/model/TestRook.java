@@ -52,7 +52,7 @@ public class TestRook {
         Assertions.assertEquals(10, r.legalPositions.size());
         p.updateAllPositions(new Coordinates(1, 5), b);
         r.updateAllPositions(source, b);
-        Assertions.assertEquals(2, r.legalPositions.size());
+        Assertions.assertEquals(1, r.legalPositions.size());
     }
 
     @Test
