@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<Pane maxHeight="710.0" maxWidth="710.0" minHeight="710.0" minWidth="710.0" prefHeight="710.0" prefWidth="710.0"
+      xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="me.erken.efe.chess.controller.GameController">
+    <ImageView mouseTransparent="true" fitHeight="710.0" fitWidth="710.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../Sprites/Board.png"/>
+    </ImageView>
+    <GridPane id="gameGrid" fx:id="gameGrid" layoutX="35.0" layoutY="35.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" prefWidth="80.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES"/>
+            <RowConstraints minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" layoutX="10.0" layoutY="10.0" prefHeight="80.0" prefWidth="80.0"
+                   GridPane.columnIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" layoutX="90.0" layoutY="10.0" prefHeight="80.0" prefWidth="80.0"
+                   GridPane.columnIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" layoutX="170.0" layoutY="10.0" prefHeight="80.0" prefWidth="80.0"
+                   GridPane.columnIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" layoutX="250.0" layoutY="10.0" prefHeight="80.0" prefWidth="80.0"
+                   GridPane.columnIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="6">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.rowIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2"
+                   GridPane.rowIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3"
+                   GridPane.rowIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4"
+                   GridPane.rowIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="5"
+                   GridPane.rowIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="6"
+                   GridPane.rowIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="7"
+                   GridPane.rowIndex="1">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.rowIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2"
+                   GridPane.rowIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3"
+                   GridPane.rowIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4"
+                   GridPane.rowIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="5"
+                   GridPane.rowIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="6"
+                   GridPane.rowIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="7"
+                   GridPane.rowIndex="2">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.rowIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2"
+                   GridPane.rowIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3"
+                   GridPane.rowIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4"
+                   GridPane.rowIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="5"
+                   GridPane.rowIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="6"
+                   GridPane.rowIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="7"
+                   GridPane.rowIndex="3">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.rowIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2"
+                   GridPane.rowIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3"
+                   GridPane.rowIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4"
+                   GridPane.rowIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="5"
+                   GridPane.rowIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="6"
+                   GridPane.rowIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="7"
+                   GridPane.rowIndex="4">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.rowIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2"
+                   GridPane.rowIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3"
+                   GridPane.rowIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4"
+                   GridPane.rowIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="5"
+                   GridPane.rowIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="6"
+                   GridPane.rowIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="7"
+                   GridPane.rowIndex="5">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.rowIndex="6">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="6">
+            <Rectangle height="80.0" mouseTransparent="true" opacity="0.0"
+                       stroke="BLACK" strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView fitHeight="80.0" fitWidth="80.0" mouseTransparent="true"
+                       pickOnBounds="true" preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2"
+                   GridPane.rowIndex="6">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3"
+                   GridPane.rowIndex="6">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4"
+                   GridPane.rowIndex="6">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="5"
+                   GridPane.rowIndex="6">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="6"
+                   GridPane.rowIndex="6">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="7"
+                   GridPane.rowIndex="6">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.rowIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="1"
+                   GridPane.rowIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="2"
+                   GridPane.rowIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="3"
+                   GridPane.rowIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="4"
+                   GridPane.rowIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="5"
+                   GridPane.rowIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="6"
+                   GridPane.rowIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+        <StackPane onMouseClicked="#selectOrMove" prefHeight="80.0" prefWidth="80.0" GridPane.columnIndex="7"
+                   GridPane.rowIndex="7">
+            <Rectangle mouseTransparent="true" height="80.0" opacity="0.0" stroke="BLACK"
+                       strokeType="INSIDE" strokeWidth="0.5" width="80.0"/>
+            <ImageView mouseTransparent="true" fitHeight="80.0" fitWidth="80.0" pickOnBounds="true"
+                       preserveRatio="true"/>
+        </StackPane>
+    </GridPane>
+</Pane>
