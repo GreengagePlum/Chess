@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "me.erken.efe.chess"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -27,8 +27,6 @@ tasks.jar {
     manifest {
         from("MANIFEST.MF")
     }
-//    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-//    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 application {
@@ -38,7 +36,6 @@ application {
 javafx {
     version = "17.0.7"
     modules("javafx.controls", "javafx.fxml", "javafx.graphics")
-//    configuration = "compileOnly"
 }
 
 jlink {
