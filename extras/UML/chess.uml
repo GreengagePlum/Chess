@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/Users/efeerken/Documents/UnistraPC/Matières/POO/L2S4P_POO_2/Projets/Chess/src/main/java/me/erken/efe/chess</OriginalElement>
+  <nodes>
+    <node x="362.9583333333335" y="2638.0">me.erken.efe.chess.model.Piece</node>
+    <node x="-135.04166666666652" y="2869.0">me.erken.efe.chess.model.SquareState</node>
+    <node x="3526.0833333333335" y="2202.0">me.erken.efe.chess.model.Bishop</node>
+    <node x="1785.0833333333335" y="-37.0">me.erken.efe.chess.controller.GameController</node>
+    <node x="415.8333333333335" y="2212.0">me.erken.efe.chess.model.Square</node>
+    <node x="-263.875" y="3315.0">me.erken.efe.chess.model.Color</node>
+    <node x="4308.783138401558" y="596.0">me.erken.efe.chess.view.Constants.EndGameExplanations</node>
+    <node x="786.0833333333335" y="2091.0">me.erken.efe.chess.model.King</node>
+    <node x="2430.0833333333335" y="2191.0">me.erken.efe.chess.model.Queen</node>
+    <node x="322.90072693704974" y="1450.8186618943846">me.erken.efe.chess.model.CastlingMove</node>
+    <node x="1797.5833333333335" y="398.0">me.erken.efe.chess.model.Game</node>
+    <node x="-189.38279727095596" y="530.0">me.erken.efe.chess.view.Constants.ColorPalette</node>
+    <node x="1604.5833333333335" y="1062.0">me.erken.efe.chess.model.MoveHistory</node>
+    <node x="4379.783138401558" y="1130.5">me.erken.efe.chess.view.Constants</node>
+    <node x="4075.083333333334" y="1073.0">me.erken.efe.chess.model.GameEndCause</node>
+    <node x="435.5048732943469" y="3349.0">me.erken.efe.chess.model.Predicate3</node>
+    <node x="1850.0833333333335" y="-162.0">me.erken.efe.chess.view.GUIJavaFX</node>
+    <node x="1334.0833333333335" y="2202.0">me.erken.efe.chess.model.Rook</node>
+    <node x="1823.5833333333335" y="1130.5">me.erken.efe.chess.model.EndOfGameException</node>
+    <node x="2720.330409356724" y="3326.0">me.erken.efe.chess.model.Coordinates</node>
+    <node x="-119.07772904483363" y="1040.0">me.erken.efe.chess.model.Player</node>
+    <node x="65.88060428849985" y="1589.0">me.erken.efe.chess.model.Move</node>
+    <node x="2978.0833333333335" y="2135.0">me.erken.efe.chess.model.Pawn</node>
+    <node x="1882.0833333333335" y="2202.0">me.erken.efe.chess.model.Knight</node>
+    <node x="1596.0833333333335" y="1380.0">me.erken.efe.chess.model.Board</node>
+    <node x="107.63060428849985" y="2313.5">me.erken.efe.chess.model.IllegalMoveException</node>
+    <node x="1850.0833333333335" y="-265.0">me.erken.efe.chess.main.Main</node>
+    <node x="4640.283138401558" y="963.0">me.erken.efe.chess.model.PieceType</node>
+    <node x="4620.783138401558" y="585.0">me.erken.efe.chess.view.Constants.SpriteMap</node>
+    <node x="106.95833333333348" y="2858.0">me.erken.efe.chess.model.SquareDanger</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="me.erken.efe.chess.model.Knight" target="me.erken.efe.chess.model.Coordinates" relationship="CREATE">
+      <point x="132.0" y="125.5" />
+      <point x="2278.783869395711" y="3264.0" />
+      <point x="2866.580409356724" y="3264.0" />
+      <point x="48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.Board" relationship="TO_ONE">
+      <point x="-90.66666666666674" y="236.5" />
+      <point x="1842.916666666667" y="892.0" />
+      <point x="1580.9583333333335" y="892.0" />
+      <point x="1580.9583333333335" y="932.0" />
+      <point x="748.533869395711" y="932.0" />
+      <point x="748.533869395711" y="1348.0" />
+      <point x="1666.0833333333335" y="1348.0" />
+      <point x="-140.0" y="-313.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.King" target="me.erken.efe.chess.model.Piece" relationship="GENERALIZATION">
+      <point x="176.0" y="236.5" />
+      <point x="1226.0833333333335" y="2586.0" />
+      <point x="2034.330409356724" y="2586.0" />
+      <point x="2034.330409356724" y="2606.0" />
+      <point x="717.7083333333335" y="2606.0" />
+      <point x="118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.King" relationship="CREATE">
+      <point x="105.0" y="313.5" />
+      <point x="1911.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2069.0" />
+      <point x="1182.0833333333335" y="2069.0" />
+      <point x="132.0" y="-236.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Piece" target="me.erken.efe.chess.model.Color" relationship="TO_ONE">
+      <point x="-118.25" y="302.5" />
+      <point x="481.2083333333335" y="3264.0" />
+      <point x="594.4583333333335" y="3264.0" />
+      <point x="594.4583333333335" y="3284.0" />
+      <point x="-172.875" y="3284.0" />
+      <point x="0.0" y="-60.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Square" target="me.erken.efe.chess.model.SquareState" relationship="TO_ONE">
+      <point x="0.0" y="115.5" />
+      <point x="536.8333333333335" y="2596.0" />
+      <point x="-24.041666666666515" y="2596.0" />
+      <point x="0.0" y="-71.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.Coordinates" relationship="CREATE">
+      <point x="105.0" y="313.5" />
+      <point x="1911.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2069.0" />
+      <point x="4064.583333333334" y="2069.0" />
+      <point x="4064.583333333334" y="3264.0" />
+      <point x="2866.580409356724" y="3264.0" />
+      <point x="48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.view.Constants.ColorPalette" target="me.erken.efe.chess.model.SquareState" relationship="TO_MANY">
+      <point x="-62.0" y="104.5" />
+      <point x="-127.38279727095596" y="892.0" />
+      <point x="-302.0" y="892.0" />
+      <point x="-302.0" y="2586.0" />
+      <point x="-24.041666666666515" y="2586.0" />
+      <point x="0.0" y="-71.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Rook" target="me.erken.efe.chess.model.Coordinates" relationship="CREATE">
+      <point x="-132.0" y="125.5" />
+      <point x="1466.0833333333335" y="2596.0" />
+      <point x="1593.0833333333335" y="2596.0" />
+      <point x="1593.0833333333335" y="3264.0" />
+      <point x="2866.580409356724" y="3264.0" />
+      <point x="48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Queen" target="me.erken.efe.chess.model.Coordinates" relationship="CREATE">
+      <point x="132.0" y="136.5" />
+      <point x="2826.533869395711" y="3264.0" />
+      <point x="2866.580409356724" y="3264.0" />
+      <point x="48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.Board" relationship="GENERALIZATION">
+      <point x="90.66666666666652" y="236.5" />
+      <point x="2024.25" y="912.0" />
+      <point x="4330.583333333334" y="912.0" />
+      <point x="4330.583333333334" y="1358.0" />
+      <point x="1946.0833333333335" y="1358.0" />
+      <point x="140.0" y="-313.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.GameEndCause" relationship="TO_ONE">
+      <point x="-90.66666666666674" y="236.5" />
+      <point x="1842.916666666667" y="892.0" />
+      <point x="1580.9583333333335" y="892.0" />
+      <point x="1580.9583333333335" y="922.0" />
+      <point x="4197.583333333334" y="922.0" />
+      <point x="0.0" y="-71.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Bishop" target="me.erken.efe.chess.model.Piece" relationship="GENERALIZATION">
+      <point x="-132.00000000000045" y="125.5" />
+      <point x="3658.083333333333" y="2586.0" />
+      <point x="2034.330409356724" y="2586.0" />
+      <point x="2034.330409356724" y="2606.0" />
+      <point x="717.7083333333335" y="2606.0" />
+      <point x="118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.view.Constants.EndGameExplanations" target="me.erken.efe.chess.model.GameEndCause" relationship="TO_MANY">
+      <point x="-73.0" y="38.5" />
+      <point x="4381.783138401558" y="932.0" />
+      <point x="4197.583333333334" y="932.0" />
+      <point x="0.0" y="-71.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.Pawn" relationship="CREATE">
+      <point x="105.0" y="313.5" />
+      <point x="1911.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2069.0" />
+      <point x="3242.0833333333335" y="2069.0" />
+      <point x="0.0" y="-192.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Player" target="me.erken.efe.chess.model.Move" relationship="CREATE">
+      <point x="82.25" y="104.5" />
+      <point x="127.67227095516637" y="1348.0" />
+      <point x="156.38060428849985" y="1348.0" />
+      <point x="0.0" y="-104.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.Board" relationship="CREATE">
+      <point x="0.0" y="236.5" />
+      <point x="1933.5833333333335" y="942.0" />
+      <point x="2054.0833333333335" y="942.0" />
+      <point x="2054.0833333333335" y="1348.0" />
+      <point x="1806.0833333333335" y="1348.0" />
+      <point x="0.0" y="-313.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.King" relationship="TO_ONE">
+      <point x="-105.0" y="313.5" />
+      <point x="1701.0833333333335" y="2029.0" />
+      <point x="672.3806042884999" y="2029.0" />
+      <point x="672.3806042884999" y="2039.0" />
+      <point x="918.0833333333335" y="2039.0" />
+      <point x="-132.0" y="-236.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.view.GUIJavaFX" target="me.erken.efe.chess.controller.GameController" relationship="GENERALIZATION">
+      <point x="0.0" y="37.5" />
+      <point x="0.0" y="-192.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Queen" target="me.erken.efe.chess.model.Piece" relationship="GENERALIZATION">
+      <point x="-132.0" y="136.5" />
+      <point x="2562.0833333333335" y="2586.0" />
+      <point x="2034.330409356724" y="2586.0" />
+      <point x="2034.330409356724" y="2606.0" />
+      <point x="717.7083333333335" y="2606.0" />
+      <point x="118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Knight" target="me.erken.efe.chess.model.Piece" relationship="GENERALIZATION">
+      <point x="-132.0" y="125.5" />
+      <point x="2014.0833333333335" y="2586.0" />
+      <point x="2034.330409356724" y="2586.0" />
+      <point x="2034.330409356724" y="2606.0" />
+      <point x="717.7083333333335" y="2606.0" />
+      <point x="118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.Knight" relationship="CREATE">
+      <point x="105.0" y="313.5" />
+      <point x="1911.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2069.0" />
+      <point x="2146.0833333333335" y="2069.0" />
+      <point x="0.0" y="-125.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.view.Constants.ColorPalette" target="me.erken.efe.chess.view.Constants" relationship="INNER_CLASS">
+      <point x="62.0" y="104.5" />
+      <point x="-3.3827972709559617" y="902.0" />
+      <point x="4444.783138401558" y="902.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.Player" relationship="TO_ONE">
+      <point x="-90.66666666666674" y="236.5" />
+      <point x="1842.916666666667" y="892.0" />
+      <point x="1580.9583333333335" y="892.0" />
+      <point x="1580.9583333333335" y="932.0" />
+      <point x="-36.82772904483363" y="932.0" />
+      <point x="-82.25" y="-104.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.King" target="me.erken.efe.chess.model.Coordinates" relationship="CREATE">
+      <point x="0.0" y="236.5" />
+      <point x="1050.0833333333335" y="3264.0" />
+      <point x="2866.580409356724" y="3264.0" />
+      <point x="48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Move" target="me.erken.efe.chess.model.Square" relationship="TO_ONE">
+      <point x="-45.25" y="104.5" />
+      <point x="111.13060428849985" y="2029.0" />
+      <point x="151.38060428849985" y="2029.0" />
+      <point x="151.38060428849985" y="2039.0" />
+      <point x="156.63060428849985" y="2039.0" />
+      <point x="156.63060428849985" y="2069.0" />
+      <point x="476.3333333333335" y="2069.0" />
+      <point x="-60.5" y="-115.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.Bishop" relationship="CREATE">
+      <point x="105.0" y="313.5" />
+      <point x="1911.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2069.0" />
+      <point x="3790.0833333333335" y="2069.0" />
+      <point x="0.0" y="-125.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.view.Constants.SpriteMap" target="me.erken.efe.chess.model.PieceType" relationship="TO_MANY">
+      <point x="59.75" y="49.5" />
+      <point x="4800.033138401558" y="892.0" />
+      <point x="4745.283138401558" y="892.0" />
+      <point x="0.0" y="-181.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.view.Constants.SpriteMap" target="me.erken.efe.chess.view.Constants" relationship="INNER_CLASS">
+      <point x="-59.75" y="49.5" />
+      <point x="4680.533138401558" y="902.0" />
+      <point x="4444.783138401558" y="902.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Pawn" target="me.erken.efe.chess.model.Coordinates" relationship="CREATE">
+      <point x="132.0" y="192.5" />
+      <point x="3374.533869395711" y="3264.0" />
+      <point x="2866.580409356724" y="3264.0" />
+      <point x="48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.Player" relationship="CREATE">
+      <point x="0.0" y="236.5" />
+      <point x="1933.5833333333335" y="942.0" />
+      <point x="127.67227095516637" y="942.0" />
+      <point x="82.25" y="-104.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Move" target="me.erken.efe.chess.model.Player" relationship="TO_ONE">
+      <point x="-60.33333333333326" y="-104.5" />
+      <point x="96.0472709551666" y="1358.0" />
+      <point x="40.42227095516637" y="1358.0" />
+      <point x="40.42227095516637" y="1348.0" />
+      <point x="-36.82772904483363" y="1348.0" />
+      <point x="-82.25" y="104.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Bishop" target="me.erken.efe.chess.model.Coordinates" relationship="CREATE">
+      <point x="131.99999999999955" y="125.5" />
+      <point x="3922.083333333333" y="2586.0" />
+      <point x="3795.083333333333" y="2586.0" />
+      <point x="3795.083333333333" y="3264.0" />
+      <point x="2866.580409356724" y="3264.0" />
+      <point x="48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.main.Main" target="me.erken.efe.chess.view.GUIJavaFX" relationship="GENERALIZATION">
+      <point x="0.0" y="26.5" />
+      <point x="0.0" y="-37.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Piece" target="me.erken.efe.chess.model.Predicate3" relationship="REALIZATION">
+      <point x="118.25" y="302.5" />
+      <point x="717.7083333333335" y="3294.0" />
+      <point x="540.5048732943469" y="3294.0" />
+      <point x="0.0" y="-26.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.MoveHistory" relationship="CREATE">
+      <point x="0.0" y="236.5" />
+      <point x="1933.5833333333335" y="942.0" />
+      <point x="1753.8333333333335" y="942.0" />
+      <point x="49.75" y="-82.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Rook" target="me.erken.efe.chess.model.Piece" relationship="GENERALIZATION">
+      <point x="132.0" y="125.5" />
+      <point x="1730.0833333333335" y="2586.0" />
+      <point x="2034.330409356724" y="2586.0" />
+      <point x="2034.330409356724" y="2606.0" />
+      <point x="717.7083333333335" y="2606.0" />
+      <point x="118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Square" target="me.erken.efe.chess.model.Piece" relationship="TO_ONE">
+      <point x="0.0" y="115.5" />
+      <point x="536.8333333333335" y="2616.0" />
+      <point x="481.2083333333335" y="2616.0" />
+      <point x="-118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.Rook" relationship="CREATE">
+      <point x="105.0" y="313.5" />
+      <point x="1911.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2069.0" />
+      <point x="1598.0833333333335" y="2069.0" />
+      <point x="0.0" y="-125.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Move" target="me.erken.efe.chess.model.IllegalMoveException" relationship="CREATE">
+      <point x="45.25" y="104.5" />
+      <point x="201.63060428849985" y="2029.0" />
+      <point x="215.63060428849985" y="2029.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="me.erken.efe.chess.controller.GameController" target="me.erken.efe.chess.model.Game" relationship="CREATE">
+      <point x="74.25" y="192.5" />
+      <point x="2007.8333333333335" y="373.0" />
+      <point x="2001.5833333333335" y="373.0" />
+      <point x="68.0" y="-236.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.Coordinates" relationship="CREATE">
+      <point x="0.0" y="236.5" />
+      <point x="1933.5833333333335" y="942.0" />
+      <point x="4064.583333333334" y="942.0" />
+      <point x="4064.583333333334" y="3264.0" />
+      <point x="2866.580409356724" y="3264.0" />
+      <point x="48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Player" target="me.erken.efe.chess.model.Color" relationship="TO_ONE">
+      <point x="-82.25" y="104.5" />
+      <point x="-36.82772904483363" y="1348.0" />
+      <point x="40.42227095516637" y="1348.0" />
+      <point x="40.42227095516637" y="1358.0" />
+      <point x="-172.875" y="1358.0" />
+      <point x="0.0" y="-60.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Move" target="me.erken.efe.chess.model.Piece" relationship="TO_ONE">
+      <point x="-45.25" y="104.5" />
+      <point x="111.13060428849985" y="2029.0" />
+      <point x="151.38060428849985" y="2029.0" />
+      <point x="151.38060428849985" y="2059.0" />
+      <point x="97.13060428849985" y="2059.0" />
+      <point x="97.13060428849985" y="2586.0" />
+      <point x="481.2083333333335" y="2586.0" />
+      <point x="-118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.EndOfGameException" relationship="CREATE">
+      <point x="0.0" y="236.5" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Square" target="me.erken.efe.chess.model.SquareDanger" relationship="TO_ONE">
+      <point x="0.0" y="115.5" />
+      <point x="536.8333333333335" y="2606.0" />
+      <point x="224.95833333333348" y="2606.0" />
+      <point x="0.0" y="-82.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.King" target="me.erken.efe.chess.model.Piece" relationship="TO_MANY">
+      <point x="-176.0" y="236.5" />
+      <point x="874.0833333333335" y="2586.0" />
+      <point x="481.2083333333335" y="2586.0" />
+      <point x="-118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.Square" relationship="CREATE">
+      <point x="105.0" y="313.5" />
+      <point x="1911.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2069.0" />
+      <point x="597.3333333333335" y="2069.0" />
+      <point x="60.5" y="-115.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Game" target="me.erken.efe.chess.model.MoveHistory" relationship="TO_ONE">
+      <point x="-90.66666666666674" y="236.5" />
+      <point x="1842.916666666667" y="892.0" />
+      <point x="1580.9583333333335" y="892.0" />
+      <point x="1580.9583333333335" y="932.0" />
+      <point x="1654.3333333333335" y="932.0" />
+      <point x="-49.75" y="-82.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.Queen" relationship="CREATE">
+      <point x="105.0" y="313.5" />
+      <point x="1911.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2029.0" />
+      <point x="2420.0833333333335" y="2069.0" />
+      <point x="2694.0833333333335" y="2069.0" />
+      <point x="0.0" y="-136.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.view.Constants.EndGameExplanations" target="me.erken.efe.chess.view.Constants" relationship="INNER_CLASS">
+      <point x="73.0" y="38.5" />
+      <point x="4527.783138401558" y="902.0" />
+      <point x="4444.783138401558" y="902.0" />
+      <point x="0.0" y="-14.0" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Piece" target="me.erken.efe.chess.model.Coordinates" relationship="TO_MANY">
+      <point x="-118.25" y="302.5" />
+      <point x="481.2083333333335" y="3264.0" />
+      <point x="594.4583333333335" y="3264.0" />
+      <point x="594.4583333333335" y="3274.0" />
+      <point x="2769.0804093567244" y="3274.0" />
+      <point x="-48.75" y="-49.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Player" target="me.erken.efe.chess.model.Square" relationship="TO_ONE">
+      <point x="-82.25" y="104.5" />
+      <point x="-36.82772904483363" y="1348.0" />
+      <point x="40.42227095516637" y="1348.0" />
+      <point x="40.42227095516637" y="2049.0" />
+      <point x="156.63060428849985" y="2049.0" />
+      <point x="156.63060428849985" y="2069.0" />
+      <point x="476.3333333333335" y="2069.0" />
+      <point x="-60.5" y="-115.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Pawn" target="me.erken.efe.chess.model.Piece" relationship="GENERALIZATION">
+      <point x="-132.0" y="192.5" />
+      <point x="3110.0833333333335" y="2586.0" />
+      <point x="2034.330409356724" y="2586.0" />
+      <point x="2034.330409356724" y="2606.0" />
+      <point x="717.7083333333335" y="2606.0" />
+      <point x="118.25" y="-302.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.controller.GameController" target="me.erken.efe.chess.model.Game" relationship="TO_ONE">
+      <point x="-74.25" y="192.5" />
+      <point x="1859.3333333333335" y="373.0" />
+      <point x="1865.5833333333335" y="373.0" />
+      <point x="-68.0" y="-236.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.Board" target="me.erken.efe.chess.model.Square" relationship="TO_MANY">
+      <point x="-105.0" y="313.5" />
+      <point x="1701.0833333333335" y="2029.0" />
+      <point x="672.3806042884999" y="2029.0" />
+      <point x="672.3806042884999" y="2059.0" />
+      <point x="156.63060428849985" y="2059.0" />
+      <point x="156.63060428849985" y="2069.0" />
+      <point x="476.3333333333335" y="2069.0" />
+      <point x="-60.5" y="-115.5" />
+    </edge>
+    <edge source="me.erken.efe.chess.model.CastlingMove" target="me.erken.efe.chess.model.Move" relationship="GENERALIZATION">
+      <point x="0.0" y="14.0" />
+      <point x="400.90072693704974" y="1358.0" />
+      <point x="216.7139376218332" y="1358.0" />
+      <point x="60.33333333333334" y="-104.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.14866059543214313" showDependencies="true" x="2501.5905679056054" y="2025.9869237511025" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

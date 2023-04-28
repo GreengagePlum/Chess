@@ -47,6 +47,10 @@ public abstract class Piece {
         return legalPositions.contains(coordinates);
     }
 
+    public int legalPositionsCount() {
+        return legalPositions.size();
+    }
+
     public boolean isKingProtector() {
         return kingProtector;
     }
@@ -62,6 +66,10 @@ public abstract class Piece {
     protected abstract boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
 
     protected abstract boolean isAttackingPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
+
+    abstract boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords);
+
+    abstract boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board);
 
     protected abstract void updateLegalPositions(Coordinates sourceCoords, Board board);
 

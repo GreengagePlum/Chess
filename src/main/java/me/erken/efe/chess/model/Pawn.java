@@ -22,7 +22,11 @@ public final class Pawn extends Piece {
         firstMove = false;
     }
 
-    private boolean pathCheckStraight(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    private boolean isDiagMove(Coordinates sourceCoords, Coordinates destinationCoords) {
+        return Math.abs(destinationCoords.x - sourceCoords.x) == 1 && Math.abs(destinationCoords.y - sourceCoords.y) == 1;
+    }
+
+    private boolean pathCheckStraight(Coordinates sourceCoords, Coordinates destinationCoords) {
         boolean preCheck;
         int diffY = destinationCoords.y - sourceCoords.y;
         int diffX = destinationCoords.x - sourceCoords.x;
@@ -31,13 +35,10 @@ public final class Pawn extends Piece {
         } else {
             preCheck = 0 < diffY && diffY <= ((firstMove) ? 2 : 1) && diffX == 0;
         }
-        if (preCheck) {
-            preCheck = destinationPieceCheck(destinationCoords, board, false);
-        }
         return preCheck;
     }
 
-    private boolean pathCheckDiag(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    private boolean pathCheckDiag(Coordinates sourceCoords, Coordinates destinationCoords) {
         boolean preCheck;
         int diffY = destinationCoords.y - sourceCoords.y;
         int diffX = destinationCoords.x - sourceCoords.x;
@@ -46,14 +47,12 @@ public final class Pawn extends Piece {
         } else {
             preCheck = diffY == 1 && Math.abs(diffX) == 1;
         }
-        if (preCheck) {
-            preCheck = destinationPieceCheck(destinationCoords, board, true);
-        }
         return preCheck;
     }
 
-    private boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
-        return pathCheckStraight(sourceCoords, destinationCoords, board) || pathCheckDiag(sourceCoords, destinationCoords, board);
+    @Override
+    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+        return pathCheckStraight(sourceCoords, destinationCoords) || pathCheckDiag(sourceCoords, destinationCoords);
     }
 
     private boolean destinationPieceCheck(Coordinates destinationCoords, Board board, boolean diagMove) {
@@ -64,7 +63,8 @@ public final class Pawn extends Piece {
         return destPiece == null;
     }
 
-    private boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    @Override
+    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         if (!firstMove && destinationCoords.x != sourceCoords.x) {
             return true;
         }
@@ -83,29 +83,34 @@ public final class Pawn extends Piece {
     @Override
     protected boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         return coordinateCheck(destinationCoords)
-                && (pathCheck(sourceCoords, destinationCoords, board) && obstructionCheck(sourceCoords, destinationCoords, board));
+                && destinationPieceCheck(destinationCoords, board, isDiagMove(sourceCoords, destinationCoords))
+                && (pathCheck(sourceCoords, destinationCoords) && obstructionCheck(sourceCoords, destinationCoords, board));
     }
 
     @Override
     protected boolean isAttackingPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
-        return coordinateCheck(destinationCoords) && pathCheckDiag(sourceCoords, destinationCoords, board);
+        return coordinateCheck(destinationCoords) && pathCheckDiag(sourceCoords, destinationCoords);
     }
 
     private List<Coordinates> traversePath(Coordinates sourceCoords, Board board, Predicate3<Coordinates, Coordinates, Board> checker) {
         List<Coordinates> result = new LinkedList<>();
         int yEvolution = (this.getColor() == Color.WHITE) ? -1 : 1;
-        if (checker.accept(sourceCoords, new Coordinates(sourceCoords.x - 1, sourceCoords.y + yEvolution), board)) {
-            result.add(new Coordinates(sourceCoords.x - 1, sourceCoords.y - 1));
+        Coordinates check = new Coordinates(sourceCoords.x - 1, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board)) {
+            result.add(check);
         }
-        if (checker.accept(sourceCoords, new Coordinates(sourceCoords.x + 1, sourceCoords.y + yEvolution), board)) {
-            result.add(new Coordinates(sourceCoords.x + 1, sourceCoords.y - 1));
+        check = new Coordinates(sourceCoords.x + 1, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board)) {
+            result.add(check);
         }
-        if (checker.accept(sourceCoords, new Coordinates(sourceCoords.x, sourceCoords.y + yEvolution), board)) {
-            result.add(new Coordinates(sourceCoords.x, sourceCoords.y - 1));
+        check = new Coordinates(sourceCoords.x, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board)) {
+            result.add(check);
         }
+        check = new Coordinates(sourceCoords.x, sourceCoords.y + 2 * yEvolution);
         // can be optimized for firstMove
-        if (checker.accept(sourceCoords, new Coordinates(sourceCoords.x, sourceCoords.y + 2 * yEvolution), board)) {
-            result.add(new Coordinates(sourceCoords.x, sourceCoords.y - 2));
+        if (checker.accept(sourceCoords, check, board)) {
+            result.add(check);
         }
         return result;
     }
@@ -121,11 +126,10 @@ public final class Pawn extends Piece {
         if (k.isInCheck()) {
             for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
                 Coordinates pos = iterator.next();
-                int attackersCount = k.getAttackingPiecesCount();
                 for (ListIterator<Piece> it = k.getAttackingPieces(); it.hasNext(); ) {
                     Piece p = it.next();
                     // can be optimized for jumping pieces (like Knights)
-                    if (!p.legalPositionsContains(pos) && !(pos.equals(board.findPiece(p)) && attackersCount == 1)) {
+                    if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
                     }
                 }

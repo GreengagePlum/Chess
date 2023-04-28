@@ -18,12 +18,15 @@ public class Move {
         return executed;
     }
 
-    public void executeMove(Board board) throws IllegalMoveException {
+    public void doMove(Board board) throws IllegalMoveException {
         Piece origin = this.source.getPiece();
         if (!executed) {
-            if (origin.isLegalPosition(board.findSquare(source), board.findSquare(destination), board)) {
+            if (origin.legalPositionsContains(board.findSquare(destination))) {
                 this.destination.setPiece(this.source.getPiece());
                 this.source.setPiece(null);
+                if (origin instanceof Pawn) {
+                    ((Pawn) origin).consumeFirstMove();
+                }
                 executed = true;
             } else {
                 throw new IllegalMoveException();

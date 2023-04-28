@@ -1,10 +1,14 @@
 plugins {
     id("java")
     id("application")
+    id("idea")
+    id("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.beryx.jlink") version "2.26.0"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "me.erken.efe.chess"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -26,5 +30,17 @@ tasks.jar {
 }
 
 application {
-    mainClass.set("me.erken.efe.chess.Main")
+    mainClass.set("me.erken.efe.chess.main.Main")
+}
+
+javafx {
+    version = "17.0.7"
+    modules("javafx.controls", "javafx.fxml", "javafx.graphics")
+}
+
+jlink {
+    options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
+    launcher {
+        name = "Chess"
+    }
 }

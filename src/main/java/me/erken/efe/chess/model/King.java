@@ -35,12 +35,14 @@ public final class King extends Piece {
         return attackingPieces.listIterator();
     }
 
-    public int getAttackingPiecesCount() {
-        return attackingPieces.size();
+    @Override
+    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+        return !sourceCoords.equals(destinationCoords) && Math.abs(destinationCoords.x - sourceCoords.x) <= 1 && Math.abs(destinationCoords.y - sourceCoords.y) <= 1;
     }
 
-    private boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
-        return Math.abs(destinationCoords.x - sourceCoords.x) == 1 && Math.abs(destinationCoords.y - sourceCoords.y) == 1;
+    @Override
+    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        return true;
     }
 
     private boolean destinationPieceCheck(Coordinates destinationCoords, Board board) {
@@ -51,12 +53,27 @@ public final class King extends Piece {
     private boolean dangerCheck(Coordinates destinationCoords, Board board) {
         SquareDanger sqd = board.getSquare(destinationCoords).getDanger();
         if (sqd == SquareDanger.PEACEFUL) {
-            return true;
+            return attackingPiecePathCheck(destinationCoords, board);
         }
         if (sqd == SquareDanger.BOTH_ATTACKING) {
             return false;
         }
-        return sqd == ((getColor() == Color.BLACK) ? SquareDanger.BLACK_ATTACKING : SquareDanger.WHITE_ATTACKING);
+        return (sqd == ((getColor() == Color.BLACK) ? SquareDanger.BLACK_ATTACKING : SquareDanger.WHITE_ATTACKING)) && attackingPiecePathCheck(destinationCoords, board);
+    }
+
+    private boolean attackingPiecePathCheck(Coordinates destinationCoords, Board board) {
+        Square sq = board.getSquare(board.findPiece(this));
+        sq.setPiece(null);
+        for (Piece p :
+                attackingPieces) {
+            Coordinates pos = board.findPiece(p);
+            if (p.pathCheck(pos, destinationCoords) && p.obstructionCheck(pos, destinationCoords, board)) {
+                sq.setPiece(this);
+                return false;
+            }
+        }
+        sq.setPiece(this);
+        return true;
     }
 
     @Override

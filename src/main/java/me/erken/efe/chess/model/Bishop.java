@@ -11,7 +11,8 @@ public final class Bishop extends Piece {
         super(color);
     }
 
-    private boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+    @Override
+    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
         return sourceCoords != destinationCoords && Math.abs(destinationCoords.x - sourceCoords.x) == Math.abs(destinationCoords.y - sourceCoords.y);
     }
 
@@ -20,7 +21,8 @@ public final class Bishop extends Piece {
         return destPiece == null || destPiece.getColor() != this.getColor();
     }
 
-    private boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    @Override
+    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         int yEvolution = ((destinationCoords.y - sourceCoords.y < 0) ? -1 : 1);
         int xEvolution = ((destinationCoords.x - sourceCoords.x < 0) ? -1 : 1);
         int x = sourceCoords.x + xEvolution;
@@ -132,11 +134,10 @@ public final class Bishop extends Piece {
         if (k.isInCheck()) {
             for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
                 Coordinates pos = iterator.next();
-                int attackersCount = k.getAttackingPiecesCount();
                 for (ListIterator<Piece> it = k.getAttackingPieces(); it.hasNext(); ) {
                     Piece p = it.next();
                     // can be optimized for jumping pieces (like Knights)
-                    if (!p.legalPositionsContains(pos) && !(pos.equals(board.findPiece(p)) && attackersCount == 1)) {
+                    if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
                     }
                 }
@@ -153,5 +154,6 @@ public final class Bishop extends Piece {
     public void updateAttackingPositions(Coordinates sourceCoords, Board board) {
         attackingPositions.clear();
         attackingPositions.addAll(traversePath(sourceCoords, board, this::isAttackingPosition));
+        setKingProtectorsInPath(sourceCoords, board);
     }
 }

@@ -10,7 +10,8 @@ public final class Knight extends Piece {
         super(color);
     }
 
-    private boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+    @Override
+    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
         return (destinationCoords.y == sourceCoords.y - 2 && destinationCoords.x == sourceCoords.x - 1)
                 || (destinationCoords.y == sourceCoords.y - 1 && destinationCoords.x == sourceCoords.x - 2)
                 || (destinationCoords.y == sourceCoords.y + 1 && destinationCoords.x == sourceCoords.x - 2)
@@ -19,6 +20,11 @@ public final class Knight extends Piece {
                 || (destinationCoords.y == sourceCoords.y + 1 && destinationCoords.x == sourceCoords.x + 2)
                 || (destinationCoords.y == sourceCoords.y - 1 && destinationCoords.x == sourceCoords.x + 2)
                 || (destinationCoords.y == sourceCoords.y - 2 && destinationCoords.x == sourceCoords.x + 1);
+    }
+
+    @Override
+    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        return true;
     }
 
     private boolean destinationPieceCheck(Coordinates destinationCoords, Board board) {
@@ -87,11 +93,10 @@ public final class Knight extends Piece {
         if (k.isInCheck()) {
             for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
                 Coordinates pos = iterator.next();
-                int attackersCount = k.getAttackingPiecesCount();
                 for (ListIterator<Piece> it = k.getAttackingPieces(); it.hasNext(); ) {
                     Piece p = it.next();
                     // can be optimized for jumping pieces (like Knights)
-                    if (!p.legalPositionsContains(pos) && !(pos.equals(board.findPiece(p)) && attackersCount == 1)) {
+                    if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
                     }
                 }

@@ -3,10 +3,10 @@ package me.erken.efe.chess.model;
 import java.util.Stack;
 
 public class MoveHistory {
-    private Stack<Move> history;
+    private final Stack<Move> history;
 
     public MoveHistory() {
-        history = new Stack<Move>();
+        history = new Stack<>();
     }
 
     public void addMove(Move move) {

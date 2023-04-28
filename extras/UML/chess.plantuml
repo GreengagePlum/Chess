@@ -1,0 +1,373 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Bishop {
+  + updateLegalPositions(Coordinates, Board): void
+  + setKingProtectorsInPath(Coordinates, Board): void
+  + updateAttackingPositions(Coordinates, Board): void
+  ~ pathCheck(Coordinates, Coordinates): boolean
+  ~ obstructionCheck(Coordinates, Coordinates, Board): boolean
+  # isLegalPosition(Coordinates, Coordinates, Board): boolean
+  # posInPathLeadingToKing(Coordinates, Coordinates, Board): boolean
+  # isAttackingPosition(Coordinates, Coordinates, Board): boolean
+  - traversePath(Coordinates, Board, Predicate3<Coordinates, Coordinates, Board>): List<Coordinates>
+  - destinationPieceCheck(Coordinates, Board): boolean
+}
+class Board {
+  + HEIGHT: int
+  + WIDTH: int
+  - grid: Square[][]
+  - kingWhite: King
+  - kingBlack: King
+  + clearKingsCheck(): void
+  + clearStateSquares(): void
+  + calculateAllPieces(Color): void
+  + selectSquare(Square): void
+  + clearPieceKingProtectors(): void
+  + clearDangerSquares(): void
+  + findPiece(Piece): Coordinates
+  + countAvailableMoves(Color): int
+  + findSquare(Square): Coordinates
+  + getKing(Color): King
+  + getSquare(Coordinates): Square
+  - fillPawn(): void
+  - updateDangerSquares(Color): void
+  - fillBishop(): void
+  - highlightMoves(Piece): void
+  - setAttackedSquares(ListIterator<Coordinates>, Color): void
+  - calculateColorPieces(Color): void
+  - fillKnight(): void
+  - fillRook(): void
+  - fillKing(): void
+  - fillAllPieces(): void
+  - fillQueen(): void
+}
+class CastlingMove
+enum Color << enumeration >> {
+  + BLACK: 
+  + WHITE: 
+  + values(): Color[]
+  + valueOf(String): Color
+}
+class ColorPalette {
+  + RED: Color
+  + WHITE: Color
+  + BLACK: Color
+  + BLUE: Color
+  + GREEN: Color
+  - pairs: Map<SquareState, Color>
+  + getColor(SquareState): Color
+  + getOpacity(SquareState): double
+}
+class Constants
+class Coordinates {
+  + y: int
+  + x: int
+  + equals(Object): boolean
+}
+class EndGameExplanations {
+  - pairs: Map<GameEndCause, String>
+  + getExplanation(GameEndCause): String
+}
+class EndOfGameException
+class GUIJavaFX {
+  + start(Stage): void
+  + main(String[]): void
+}
+class Game {
+  - player1: Player
+  - currentPlayer: Player
+  - history: MoveHistory
+  - player2: Player
+  - board: Board
+  - gameEndCause: GameEndCause
+  + getCurrentPlayerColor(): Color
+  + selectionY(): int
+  + endReason(): GameEndCause
+  + makeMove(int, int): void
+  + getSquareState(int, int): SquareState
+  + getPieceColor(int, int): Color
+  + selectionExists(): boolean
+  + selectionX(): int
+  + getPieceType(int, int): PieceType
+  + isEnded(): boolean
+  + makeSelection(int, int): void
+  - advanceTurn(): void
+  - updateIsEndGame(): void
+  - postMoveSequence(): void
+}
+class GameController {
+  - game: Game
+  - gameGrid: GridPane
+  - fade: FadeTransition
+  - gameGridRectangles: Rectangle[][]
+  - gameGridImages: ImageView[][]
+  + selectOrMove(MouseEvent): void
+  + setUpController(): void
+  - loadHighlight(int, int, SquareState): void
+  - loadGame(): void
+  - loadAllHighlights(): void
+  - getRowIndex(Node): int
+  - loadPiece(int, int, PieceType): void
+  - makeMove(int, int): void
+  - endGame(): void
+  - getColumnIndex(Node): int
+  - makeSelection(int, int): void
+}
+enum GameEndCause << enumeration >> {
+  + STALEMATE: 
+  + NONE: 
+  + CHECKMATE: 
+  + values(): GameEndCause[]
+  + valueOf(String): GameEndCause
+}
+class IllegalMoveException
+class King {
+  - inCheck: boolean
+  - attackingPieces: List<Piece>
+  + addAttackingPiece(Piece): void
+  + updateAttackingPositions(Coordinates, Board): void
+  + updateLegalPositions(Coordinates, Board): void
+  + isInCheck(): boolean
+  + setInCheck(boolean): void
+  + clearAttackingPieces(): void
+  + getAttackingPieces(): ListIterator<Piece>
+  ~ obstructionCheck(Coordinates, Coordinates, Board): boolean
+  ~ pathCheck(Coordinates, Coordinates): boolean
+  # isLegalPosition(Coordinates, Coordinates, Board): boolean
+  # setKingProtectorsInPath(Coordinates, Board): void
+  # setOppositeKingToCheck(Board): void
+  # posInPathLeadingToKing(Coordinates, Coordinates, Board): boolean
+  # isAttackingPosition(Coordinates, Coordinates, Board): boolean
+  - dangerCheck(Coordinates, Board): boolean
+  - traversePath(Coordinates, Board, Predicate3<Coordinates, Coordinates, Board>): List<Coordinates>
+  - attackingPiecePathCheck(Coordinates, Board): boolean
+  - destinationPieceCheck(Coordinates, Board): boolean
+}
+class Knight {
+  + updateLegalPositions(Coordinates, Board): void
+  + updateAttackingPositions(Coordinates, Board): void
+  ~ obstructionCheck(Coordinates, Coordinates, Board): boolean
+  ~ pathCheck(Coordinates, Coordinates): boolean
+  # posInPathLeadingToKing(Coordinates, Coordinates, Board): boolean
+  # setKingProtectorsInPath(Coordinates, Board): void
+  # isAttackingPosition(Coordinates, Coordinates, Board): boolean
+  # isLegalPosition(Coordinates, Coordinates, Board): boolean
+  - traversePath(Coordinates, Board, Predicate3<Coordinates, Coordinates, Board>): List<Coordinates>
+  - destinationPieceCheck(Coordinates, Board): boolean
+}
+class Main {
+  + main(String[]): void
+}
+class Move {
+  + source: Square
+  + takenPiece: Piece
+  + player: Player
+  + destination: Square
+  - executed: boolean
+  + isExecuted(): boolean
+  + doMove(Board): void
+  + undoMove(): void
+}
+class MoveHistory {
+  - history: Stack<Move>
+  + lastMove(): Move
+  + addMove(Move): void
+  + moveCount(): int
+  + getRemoveMove(): Move
+  + isEmpty(): boolean
+}
+class Pawn {
+  - firstMove: boolean
+  + isFirstMove(): boolean
+  + updateAttackingPositions(Coordinates, Board): void
+  + consumeFirstMove(): void
+  + updateLegalPositions(Coordinates, Board): void
+  ~ pathCheck(Coordinates, Coordinates): boolean
+  ~ obstructionCheck(Coordinates, Coordinates, Board): boolean
+  # isAttackingPosition(Coordinates, Coordinates, Board): boolean
+  # isLegalPosition(Coordinates, Coordinates, Board): boolean
+  # posInPathLeadingToKing(Coordinates, Coordinates, Board): boolean
+  # setKingProtectorsInPath(Coordinates, Board): void
+  - pathCheckStraight(Coordinates, Coordinates): boolean
+  - pathCheckDiag(Coordinates, Coordinates): boolean
+  - traversePath(Coordinates, Board, Predicate3<Coordinates, Coordinates, Board>): List<Coordinates>
+  - destinationPieceCheck(Coordinates, Board, boolean): boolean
+  - isDiagMove(Coordinates, Coordinates): boolean
+}
+class Piece {
+  # attackingPositions: List<Coordinates>
+  # legalPositions: List<Coordinates>
+  - color: Color
+  - kingProtector: boolean
+  - kingProtectorCausingPiece: Piece
+  + getAttackingPositions(): ListIterator<Coordinates>
+  + getKingProtectorCausingPiece(): Piece
+  + getLegalPositions(): ListIterator<Coordinates>
+  + clearKingProtectorCausingPiece(): void
+  + legalPositionsContains(Coordinates): boolean
+  + setKingProtectorCausingPiece(Piece): void
+  + coordinateCheck(Coordinates): boolean
+  + legalPositionsCount(): int
+  + isKingProtector(): boolean
+  + getColor(): Color
+  + setKingProtector(boolean): void
+  ~ obstructionCheck(Coordinates, Coordinates, Board): boolean
+  ~ pathCheck(Coordinates, Coordinates): boolean
+  # updateAttackingPositions(Coordinates, Board): void
+  # updateAllPositions(Coordinates, Board): void
+  # setKingProtectorsInPath(Coordinates, Board): void
+  # updateLegalPositions(Coordinates, Board): void
+  # posInPathLeadingToKing(Coordinates, Coordinates, Board): boolean
+  # isAttackingPosition(Coordinates, Coordinates, Board): boolean
+  # setOppositeKingToCheck(Board): void
+  # isLegalPosition(Coordinates, Coordinates, Board): boolean
+}
+enum PieceType << enumeration >> {
+  + BLACK_PAWN: 
+  + WHITE_KNIGHT: 
+  + BLACK_KING: 
+  + NONE: 
+  + WHITE_KING: 
+  + WHITE_PAWN: 
+  + WHITE_QUEEN: 
+  + BLACK_KNIGHT: 
+  + BLACK_ROOK: 
+  + WHITE_BISHOP: 
+  + BLACK_BISHOP: 
+  + WHITE_ROOK: 
+  + BLACK_QUEEN: 
+  + valueOf(String): PieceType
+  + values(): PieceType[]
+}
+class Player {
+  - selection: Square
+  - color: Color
+  + makeMove(Square, MoveHistory, Board): void
+  + makeSelection(Square, Board): void
+  + getColor(): Color
+  + getSelection(): Square
+  - clearSelection(): void
+  - setSelection(Square): void
+}
+interface Predicate3<T, U, V> << interface >> {
+  + accept(T, U, V): boolean
+}
+class Queen {
+  + updateLegalPositions(Coordinates, Board): void
+  + updateAttackingPositions(Coordinates, Board): void
+  + setKingProtectorsInPath(Coordinates, Board): void
+  ~ pathCheck(Coordinates, Coordinates): boolean
+  ~ obstructionCheck(Coordinates, Coordinates, Board): boolean
+  # posInPathLeadingToKing(Coordinates, Coordinates, Board): boolean
+  # isLegalPosition(Coordinates, Coordinates, Board): boolean
+  # isAttackingPosition(Coordinates, Coordinates, Board): boolean
+  - destinationPieceCheck(Coordinates, Board): boolean
+  - traversePath(Coordinates, Board, Predicate3<Coordinates, Coordinates, Board>): List<Coordinates>
+  - canMoveInOneGo(Coordinates, Coordinates, Coordinates): boolean
+}
+class Rook {
+  + updateLegalPositions(Coordinates, Board): void
+  + updateAttackingPositions(Coordinates, Board): void
+  + setKingProtectorsInPath(Coordinates, Board): void
+  ~ pathCheck(Coordinates, Coordinates): boolean
+  ~ obstructionCheck(Coordinates, Coordinates, Board): boolean
+  # isAttackingPosition(Coordinates, Coordinates, Board): boolean
+  # posInPathLeadingToKing(Coordinates, Coordinates, Board): boolean
+  # isLegalPosition(Coordinates, Coordinates, Board): boolean
+  - traversePath(Coordinates, Board, Predicate3<Coordinates, Coordinates, Board>): List<Coordinates>
+  - destinationPieceCheck(Coordinates, Board): boolean
+}
+class SpriteMap {
+  - spriteDir: String
+  - pairs: Map<PieceType, String>
+  + getSprite(PieceType): String
+}
+class Square {
+  - piece: Piece
+  - state: SquareState
+  - danger: SquareDanger
+  + getState(): SquareState
+  + setState(SquareState): void
+  + setDanger(SquareDanger): void
+  + getPiece(): Piece
+  + setPiece(Piece): void
+  + getDanger(): SquareDanger
+}
+enum SquareDanger << enumeration >> {
+  + PEACEFUL: 
+  + WHITE_ATTACKING: 
+  + BOTH_ATTACKING: 
+  + BLACK_ATTACKING: 
+  + valueOf(String): SquareDanger
+  + values(): SquareDanger[]
+}
+enum SquareState << enumeration >> {
+  + NORMAL: 
+  + HIGHLIGHTED: 
+  + SELECTED: 
+  + values(): SquareState[]
+  + valueOf(String): SquareState
+}
+
+Bishop                -[#595959,dashed]->  Coordinates          : "«create»"
+Bishop                -[#000082,plain]-^  Piece                
+Board                 -[#595959,dashed]->  Bishop               : "«create»"
+Board                 -[#595959,dashed]->  Coordinates          : "«create»"
+Board                 -[#595959,dashed]->  King                 : "«create»"
+Board                "1" *-[#595959,plain]-> "kingBlack\n1" King                 
+Board                 -[#595959,dashed]->  Knight               : "«create»"
+Board                 -[#595959,dashed]->  Pawn                 : "«create»"
+Board                 -[#595959,dashed]->  Queen                : "«create»"
+Board                 -[#595959,dashed]->  Rook                 : "«create»"
+Board                "1" *-[#595959,plain]-> "grid\n*" Square               
+Board                 -[#595959,dashed]->  Square               : "«create»"
+CastlingMove          -[#000082,plain]-^  Move                 
+ColorPalette          +-[#820000,plain]-  Constants            
+ColorPalette         "1" *-[#595959,plain]-> "pairs\n*" SquareState          
+EndGameExplanations   +-[#820000,plain]-  Constants            
+EndGameExplanations  "1" *-[#595959,plain]-> "pairs\n*" GameEndCause         
+GUIJavaFX             -[#000082,plain]-^  GameController       
+Game                  -[#000082,plain]-^  Board                
+Game                  -[#595959,dashed]->  Board                : "«create»"
+Game                 "1" *-[#595959,plain]-> "board\n1" Board                
+Game                  -[#595959,dashed]->  Coordinates          : "«create»"
+Game                  -[#595959,dashed]->  EndOfGameException   : "«create»"
+Game                 "1" *-[#595959,plain]-> "gameEndCause\n1" GameEndCause         
+Game                  -[#595959,dashed]->  MoveHistory          : "«create»"
+Game                 "1" *-[#595959,plain]-> "history\n1" MoveHistory          
+Game                  -[#595959,dashed]->  Player               : "«create»"
+Game                 "1" *-[#595959,plain]-> "player1\n1" Player               
+GameController        -[#595959,dashed]->  Game                 : "«create»"
+GameController       "1" *-[#595959,plain]-> "game\n1" Game                 
+King                  -[#595959,dashed]->  Coordinates          : "«create»"
+King                  -[#000082,plain]-^  Piece                
+King                 "1" *-[#595959,plain]-> "attackingPieces\n*" Piece                
+Knight                -[#595959,dashed]->  Coordinates          : "«create»"
+Knight                -[#000082,plain]-^  Piece                
+Main                  -[#000082,plain]-^  GUIJavaFX            
+Move                  -[#595959,dashed]->  IllegalMoveException : "«create»"
+Move                 "1" *-[#595959,plain]-> "takenPiece\n1" Piece                
+Move                 "1" *-[#595959,plain]-> "player\n1" Player               
+Move                 "1" *-[#595959,plain]-> "source\n1" Square               
+Pawn                  -[#595959,dashed]->  Coordinates          : "«create»"
+Pawn                  -[#000082,plain]-^  Piece                
+Piece                "1" *-[#595959,plain]-> "color\n1" Color                
+Piece                "1" *-[#595959,plain]-> "legalPositions\n*" Coordinates          
+Piece                 -[#008200,dashed]-^  Predicate3           
+Player               "1" *-[#595959,plain]-> "color\n1" Color                
+Player                -[#595959,dashed]->  Move                 : "«create»"
+Player               "1" *-[#595959,plain]-> "selection\n1" Square               
+Queen                 -[#595959,dashed]->  Coordinates          : "«create»"
+Queen                 -[#000082,plain]-^  Piece                
+Rook                  -[#595959,dashed]->  Coordinates          : "«create»"
+Rook                  -[#000082,plain]-^  Piece                
+SpriteMap             +-[#820000,plain]-  Constants            
+SpriteMap            "1" *-[#595959,plain]-> "pairs\n*" PieceType            
+Square               "1" *-[#595959,plain]-> "piece\n1" Piece                
+Square               "1" *-[#595959,plain]-> "danger\n1" SquareDanger         
+Square               "1" *-[#595959,plain]-> "state\n1" SquareState          
+@enduml

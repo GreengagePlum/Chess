@@ -1,0 +1,95 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Bishop
+class Board
+class CastlingMove
+enum Color << enumeration >>
+class ColorPalette
+class Constants
+class Coordinates
+class EndGameExplanations
+class EndOfGameException
+class GUIJavaFX
+class Game
+class GameController
+enum GameEndCause << enumeration >>
+class IllegalMoveException
+class King
+class Knight
+class Main
+class Move
+class MoveHistory
+class Pawn
+class Piece
+enum PieceType << enumeration >>
+class Player
+interface Predicate3<T, U, V> << interface >>
+class Queen
+class Rook
+class SpriteMap
+class Square
+enum SquareDanger << enumeration >>
+enum SquareState << enumeration >>
+
+Bishop                -[#595959,dashed]->  Coordinates          : "«create»"
+Bishop                -[#000082,plain]-^  Piece                
+Board                 -[#595959,dashed]->  Bishop               : "«create»"
+Board                 -[#595959,dashed]->  Coordinates          : "«create»"
+Board                 -[#595959,dashed]->  King                 : "«create»"
+Board                "1" *-[#595959,plain]-> "kingBlack\n1" King                 
+Board                 -[#595959,dashed]->  Knight               : "«create»"
+Board                 -[#595959,dashed]->  Pawn                 : "«create»"
+Board                 -[#595959,dashed]->  Queen                : "«create»"
+Board                 -[#595959,dashed]->  Rook                 : "«create»"
+Board                "1" *-[#595959,plain]-> "grid\n*" Square               
+Board                 -[#595959,dashed]->  Square               : "«create»"
+CastlingMove          -[#000082,plain]-^  Move                 
+ColorPalette          +-[#820000,plain]-  Constants            
+ColorPalette         "1" *-[#595959,plain]-> "pairs\n*" SquareState          
+EndGameExplanations   +-[#820000,plain]-  Constants            
+EndGameExplanations  "1" *-[#595959,plain]-> "pairs\n*" GameEndCause         
+GUIJavaFX             -[#000082,plain]-^  GameController       
+Game                  -[#000082,plain]-^  Board                
+Game                  -[#595959,dashed]->  Board                : "«create»"
+Game                 "1" *-[#595959,plain]-> "board\n1" Board                
+Game                  -[#595959,dashed]->  Coordinates          : "«create»"
+Game                  -[#595959,dashed]->  EndOfGameException   : "«create»"
+Game                 "1" *-[#595959,plain]-> "gameEndCause\n1" GameEndCause         
+Game                  -[#595959,dashed]->  MoveHistory          : "«create»"
+Game                 "1" *-[#595959,plain]-> "history\n1" MoveHistory          
+Game                  -[#595959,dashed]->  Player               : "«create»"
+Game                 "1" *-[#595959,plain]-> "player1\n1" Player               
+GameController        -[#595959,dashed]->  Game                 : "«create»"
+GameController       "1" *-[#595959,plain]-> "game\n1" Game                 
+King                  -[#595959,dashed]->  Coordinates          : "«create»"
+King                  -[#000082,plain]-^  Piece                
+King                 "1" *-[#595959,plain]-> "attackingPieces\n*" Piece                
+Knight                -[#595959,dashed]->  Coordinates          : "«create»"
+Knight                -[#000082,plain]-^  Piece                
+Main                  -[#000082,plain]-^  GUIJavaFX            
+Move                  -[#595959,dashed]->  IllegalMoveException : "«create»"
+Move                 "1" *-[#595959,plain]-> "takenPiece\n1" Piece                
+Move                 "1" *-[#595959,plain]-> "player\n1" Player               
+Move                 "1" *-[#595959,plain]-> "source\n1" Square               
+Pawn                  -[#595959,dashed]->  Coordinates          : "«create»"
+Pawn                  -[#000082,plain]-^  Piece                
+Piece                "1" *-[#595959,plain]-> "color\n1" Color                
+Piece                "1" *-[#595959,plain]-> "legalPositions\n*" Coordinates          
+Piece                 -[#008200,dashed]-^  Predicate3           
+Player               "1" *-[#595959,plain]-> "color\n1" Color                
+Player                -[#595959,dashed]->  Move                 : "«create»"
+Player               "1" *-[#595959,plain]-> "selection\n1" Square               
+Queen                 -[#595959,dashed]->  Coordinates          : "«create»"
+Queen                 -[#000082,plain]-^  Piece                
+Rook                  -[#595959,dashed]->  Coordinates          : "«create»"
+Rook                  -[#000082,plain]-^  Piece                
+SpriteMap             +-[#820000,plain]-  Constants            
+SpriteMap            "1" *-[#595959,plain]-> "pairs\n*" PieceType            
+Square               "1" *-[#595959,plain]-> "piece\n1" Piece                
+Square               "1" *-[#595959,plain]-> "danger\n1" SquareDanger         
+Square               "1" *-[#595959,plain]-> "state\n1" SquareState          
+@enduml

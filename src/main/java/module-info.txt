@@ -1,0 +1,18 @@
+module Chess {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires javafx.graphics;
+
+    requires java.desktop;
+
+    opens me.erken.efe.chess.view to javafx.fxml;
+    opens me.erken.efe.chess.controller to javafx.fxml;
+
+//    exports me.erken.efe.chess.controller;
+//    exports me.erken.efe.chess.view;
+//    exports me.erken.efe.chess.model;
+    exports me.erken.efe.chess.main;
+    exports me.erken.efe.chess.controller;
+    exports me.erken.efe.chess.view;
+    exports me.erken.efe.chess.model;
+}
