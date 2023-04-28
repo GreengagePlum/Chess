@@ -1,6 +1,9 @@
 # Chess
 
-Vous trouverez ici le projet de l'UE Programmation Orienté Objet 2.
+Vous trouverez ici le projet de l'UE Programmation Orienté Objet 2. Le sujet du projet, le rapport et les diagrammes UML
+se trouvent sous `extras/`.
+
+![Un aperçu de l'interface graphique du jeu](images/example.png)
 
 ## Étudiants
 
@@ -12,7 +15,7 @@ Groupes : TD2-TP4
 
 ## Problèmes rencontrés
 
-Voici vous pouvez trouver les problèmes que j'ai eus lors du développement et comment je les ai résolus (ou pas).
+Voici, vous pouvez trouver les problèmes que j'ai eus lors du développement et comment je les ai résolus (ou pas).
 
 [//]: # (### Superposition joueur-objectif)
 
@@ -69,7 +72,8 @@ ou
 git clone git@git.unistra.fr:erken/sokoban.git
 ```
 
-Une fois c'est fait, rendez-vous dans le répertoire du projet et compilez.
+Une fois c'est fait, rendez-vous dans le répertoire du projet et compilez. Les fichiers compilés se trouvent
+sous `build/` et le fichier unique `.jar` sous `build/libs/`.
 
 ```
 cd chess/
@@ -77,10 +81,11 @@ cd chess/
 ./gradlew build
 ```
 
-Désormais, vous pouvez exécuter le jeu tant que vous êtes dans le répertoire de celui-ci.
+Désormais, vous pouvez exécuter le jeu tant que vous êtes dans le répertoire de celui-ci. Ou normalement, vous pouvez
+double cliquer sur le `.jar` annoté `-all` pour lancer.
 
 ```
-java -jar build/libs/Chess-1.0-SNAPSHOT.jar
+./gradlew run
 ```
 
 ### Génération de la documentation
