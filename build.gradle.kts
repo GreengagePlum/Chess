@@ -31,6 +31,7 @@ tasks.jar {
 
 application {
     mainClass.set("me.erken.efe.chess.main.Main")
+    mainModule.set("me.erken.efe.chess")
 }
 
 javafx {

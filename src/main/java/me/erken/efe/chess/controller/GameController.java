@@ -16,6 +16,7 @@ import me.erken.efe.chess.model.*;
 import me.erken.efe.chess.view.Constants;
 
 import java.util.ListIterator;
+import java.util.Objects;
 
 public class GameController {
     private Game game;
@@ -49,7 +50,13 @@ public class GameController {
     }
 
     private void loadPiece(int x, int y, PieceType pt) {
-        String pathToSprite = Constants.SpriteMap.getSprite(pt);
+        String pathPre = Constants.SpriteMap.getSprite(pt);
+        String pathToSprite;
+        if (pathPre == null) {
+            pathToSprite = null;
+        } else {
+            pathToSprite = Objects.requireNonNull(getClass().getResource(Constants.SpriteMap.getSprite(pt))).toString();
+        }
         gameGridImages[y][x].setImage((pathToSprite == null) ? null : new Image(pathToSprite));
     }
 

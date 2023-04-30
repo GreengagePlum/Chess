@@ -15,7 +15,7 @@ public class GUIJavaFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("View/FXML/view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/FXML/view.fxml"));
         Pane root = loader.load();
 
         GameController controller = loader.getController();
