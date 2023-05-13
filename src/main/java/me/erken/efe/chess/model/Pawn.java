@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public final class Pawn extends Piece {
+public final class Pawn extends RegularPiece {
 
     private boolean firstMove;
 
@@ -51,8 +51,13 @@ public final class Pawn extends Piece {
     }
 
     @Override
-    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+    protected boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
         return pathCheckStraight(sourceCoords, destinationCoords) || pathCheckDiag(sourceCoords, destinationCoords);
+    }
+
+    @Override
+    protected boolean destinationPieceCheck(Coordinates destinationCoords, Board board) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
     }
 
     private boolean destinationPieceCheck(Coordinates destinationCoords, Board board, boolean diagMove) {
@@ -64,7 +69,7 @@ public final class Pawn extends Piece {
     }
 
     @Override
-    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    protected boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         if (!firstMove && destinationCoords.x != sourceCoords.x) {
             return true;
         }
@@ -82,6 +87,10 @@ public final class Pawn extends Piece {
 
     @Override
     protected boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        return false;
+    }
+
+    boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board, MoveHistory history) {
         return coordinateCheck(destinationCoords)
                 && destinationPieceCheck(destinationCoords, board, isDiagMove(sourceCoords, destinationCoords))
                 && (pathCheck(sourceCoords, destinationCoords) && obstructionCheck(sourceCoords, destinationCoords, board));
@@ -119,7 +128,7 @@ public final class Pawn extends Piece {
     public void updateLegalPositions(Coordinates sourceCoords, Board board) {
         legalPositions.clear();
         King k = board.getKing(this.getColor());
-        if (k.isInCheck() && this.isKingProtector()) {
+        if (k.isInCheck() && this.isRoyalProtector()) {
             return;
         }
         List<Coordinates> possibilities = traversePath(sourceCoords, board, this::isLegalPosition);
@@ -134,9 +143,9 @@ public final class Pawn extends Piece {
                     }
                 }
             }
-        } else if (this.isKingProtector()) {
-            Coordinates threat = board.findPiece(this.getKingProtectorCausingPiece());
-            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getKingProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
+        } else if (this.isRoyalProtector()) {
+            Coordinates threat = board.findPiece(this.getRoyalProtectorCausingPiece());
+            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getRoyalProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
         }
         legalPositions.addAll(possibilities);
         setOppositeKingToCheck(board);
@@ -146,6 +155,16 @@ public final class Pawn extends Piece {
     public void updateAttackingPositions(Coordinates sourceCoords, Board board) {
         attackingPositions.clear();
         attackingPositions.addAll(traversePath(sourceCoords, board, this::isAttackingPosition));
+    }
+
+    @Override
+    public void updateAllPositions(Coordinates sourceCoords, Board board) {
+    }
+
+    public void updateAllPositions(Coordinates sourceCoords, Board board, MoveHistory history) {
+        // can be optimized
+        updateLegalPositions(sourceCoords, board, history);
+        updateAttackingPositions(sourceCoords, board);
     }
 
     @Override
