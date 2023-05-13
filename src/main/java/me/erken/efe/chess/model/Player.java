@@ -35,7 +35,7 @@ public class Player {
         }
     }
 
-    public void makeMove(Square destination, MoveHistory history, Board board) throws IllegalMoveException {
+    public void makeMove(Square destination, MoveHistory history, Board board, String rank) throws IllegalMoveException, PawnPromotionException {
         if (selection == null) {
             return;
         }

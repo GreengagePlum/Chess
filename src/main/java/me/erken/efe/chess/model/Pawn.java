@@ -68,6 +68,38 @@ public final class Pawn extends RegularPiece {
         return destPiece == null;
     }
 
+    private boolean enPassantCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board, MoveHistory moveHistory) {
+        int yEvolution = (this.getColor() == Color.WHITE) ? -1 : 1;
+        if (Math.abs(destinationCoords.x - sourceCoords.x) != 1 || destinationCoords.y - sourceCoords.y != yEvolution) {
+            return false;
+        }
+        Piece leftPiece;
+        try {
+            leftPiece = board.getSquare(new Coordinates(sourceCoords.x - 1, sourceCoords.y)).getPiece();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            leftPiece = null;
+        }
+        if (destinationCoords.x - sourceCoords.x == -1 && leftPiece instanceof Pawn && leftPiece.getColor() != getColor()) {
+            Move lastMove = moveHistory.lastMove();
+            if (lastMove instanceof RegularMove && ((RegularMove) lastMove).getDestination().getPiece() == leftPiece && Math.abs(board.findSquare(((RegularMove) lastMove).getSource()).y - board.findSquare(((RegularMove) lastMove).getDestination()).y) == 2) {
+                return true;
+            }
+        }
+        Piece rightPiece;
+        try {
+            rightPiece = board.getSquare(new Coordinates(sourceCoords.x + 1, sourceCoords.y)).getPiece();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            rightPiece = null;
+        }
+        if (destinationCoords.x - sourceCoords.x == 1 && rightPiece instanceof Pawn && rightPiece.getColor() != getColor()) {
+            Move lastMove = moveHistory.lastMove();
+            if (lastMove instanceof RegularMove && ((RegularMove) lastMove).getDestination().getPiece() == rightPiece && Math.abs(board.findSquare(((RegularMove) lastMove).getSource()).y - board.findSquare(((RegularMove) lastMove).getDestination()).y) == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     protected boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         if (!firstMove && destinationCoords.x != sourceCoords.x) {
@@ -93,7 +125,8 @@ public final class Pawn extends RegularPiece {
     boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board, MoveHistory history) {
         return coordinateCheck(destinationCoords)
                 && destinationPieceCheck(destinationCoords, board, isDiagMove(sourceCoords, destinationCoords))
-                && (pathCheck(sourceCoords, destinationCoords) && obstructionCheck(sourceCoords, destinationCoords, board));
+                && (pathCheck(sourceCoords, destinationCoords) && obstructionCheck(sourceCoords, destinationCoords, board))
+                || (coordinateCheck(destinationCoords) && enPassantCheck(sourceCoords, destinationCoords, board, history));
     }
 
     @Override
@@ -124,14 +157,40 @@ public final class Pawn extends RegularPiece {
         return result;
     }
 
+    private List<Coordinates> traversePath(Coordinates sourceCoords, Board board, MoveHistory history, Predicate4<Coordinates, Coordinates, Board, MoveHistory> checker) {
+        List<Coordinates> result = new LinkedList<>();
+        int yEvolution = (this.getColor() == Color.WHITE) ? -1 : 1;
+        Coordinates check = new Coordinates(sourceCoords.x - 1, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board, history)) {
+            result.add(check);
+        }
+        check = new Coordinates(sourceCoords.x + 1, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board, history)) {
+            result.add(check);
+        }
+        check = new Coordinates(sourceCoords.x, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board, history)) {
+            result.add(check);
+        }
+        check = new Coordinates(sourceCoords.x, sourceCoords.y + 2 * yEvolution);
+        // can be optimized for firstMove
+        if (checker.accept(sourceCoords, check, board, history)) {
+            result.add(check);
+        }
+        return result;
+    }
+
     @Override
     public void updateLegalPositions(Coordinates sourceCoords, Board board) {
+    }
+
+    void updateLegalPositions(Coordinates sourceCoords, Board board, MoveHistory history) {
         legalPositions.clear();
         King k = board.getKing(this.getColor());
         if (k.isInCheck() && this.isRoyalProtector()) {
             return;
         }
-        List<Coordinates> possibilities = traversePath(sourceCoords, board, this::isLegalPosition);
+        List<Coordinates> possibilities = traversePath(sourceCoords, board, history, this::isLegalPosition);
         if (k.isInCheck()) {
             for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
                 Coordinates pos = iterator.next();

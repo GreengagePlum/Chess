@@ -1,5 +1,7 @@
 package me.erken.efe.chess.model;
 
+import java.util.List;
+
 public class Game extends Board {
     private final Board board;
     private final Player player1, player2;
@@ -14,7 +16,7 @@ public class Game extends Board {
         currentPlayer = player1;
         history = new MoveHistory();
         gameEndCause = GameEndCause.NONE;
-        board.calculateAllPieces((currentPlayer.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK);
+        board.calculateAllPieces((currentPlayer.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK, history);
     }
 
     public SquareState getSquareState(int x, int y) {
@@ -77,11 +79,11 @@ public class Game extends Board {
         currentPlayer.makeSelection(board.getSquare(new Coordinates(x, y)), board);
     }
 
-    public void makeMove(int x, int y) throws EndOfGameException, IllegalMoveException {
+    public List<Coordinates> makeMove(int x, int y, String rank) throws EndOfGameException, IllegalMoveException, PawnPromotionException {
         if (isEnded()) {
             throw new EndOfGameException();
         }
-        currentPlayer.makeMove(board.getSquare(new Coordinates(x, y)), history, board);
+        currentPlayer.makeMove(board.getSquare(new Coordinates(x, y)), history, board, rank);
         postMoveSequence();
     }
 
@@ -89,7 +91,7 @@ public class Game extends Board {
         board.clearDangerSquares();
         board.clearKingsCheck();
         board.clearPieceKingProtectors();
-        board.calculateAllPieces(currentPlayer.getColor());
+        board.calculateAllPieces(currentPlayer.getColor(), history);
         advanceTurn(); //?? maybe at the end (not the right place/order here)
         updateIsEndGame();
     }
