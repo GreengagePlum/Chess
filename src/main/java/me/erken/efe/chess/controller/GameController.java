@@ -15,16 +15,15 @@ import javafx.util.Duration;
 import me.erken.efe.chess.model.*;
 import me.erken.efe.chess.view.Constants;
 
-import java.util.ListIterator;
-import java.util.Objects;
+import java.util.*;
 
 public class GameController {
+    private final List<FadeTransition> fades = new ArrayList<>();
     private Game game;
     @FXML
     private GridPane gameGrid;
     private ImageView[][] gameGridImages;
     private Rectangle[][] gameGridRectangles;
-    private FadeTransition fade;
 
     public GameController() {
         game = new Game();
@@ -68,7 +67,9 @@ public class GameController {
     private void loadAllHighlights() {
         for (int y = 0; y < Board.HEIGHT; y++) {
             for (int x = 0; x < Board.WIDTH; x++) {
-                loadHighlight(x, y, game.getSquareState(x, y));
+                if (gameGridRectangles[y][x].getFill() != Constants.ColorPalette.RED) {
+                    loadHighlight(x, y, game.getSquareState(x, y));
+                }
             }
         }
     }
@@ -88,29 +89,32 @@ public class GameController {
         } catch (EndOfGameException e) {
             endGame();
         } finally {
-            if (fade != null && game.getSquareState(getColumnIndex(fade.getNode().getParent()), getRowIndex(fade.getNode().getParent())) != SquareState.NORMAL) {
-                fade.stop();
-                fade = null;
+            for (FadeTransition fade :
+                    fades) {
+                if (game.getSquareState(getColumnIndex(fade.getNode().getParent()), getRowIndex(fade.getNode().getParent())) != SquareState.NORMAL) {
+                    fade.jumpTo("end");
+                }
             }
             loadAllHighlights();
         }
     }
 
-    private void makeMove(int x, int y) {
+    private void makeMove(int x, int y, String rank) {
         try {
-            int oldX = game.selectionX();
-            int oldY = game.selectionY();
-            game.makeMove(x, y);
-            loadPiece(oldX, oldY, game.getPieceType(oldX, oldY));
-            loadPiece(x, y, game.getPieceType(x, y));
+            loadPieces(game.makeMove(x, y, rank));
             if (game.isEnded()) {
                 endGame();
             }
         } catch (IllegalMoveException e) {
             gameGridRectangles[y][x].setFill(Constants.ColorPalette.RED);
-            fade = new FadeTransition(Duration.seconds(1), gameGridRectangles[y][x]);
+            FadeTransition fade = new FadeTransition(Duration.seconds(1), gameGridRectangles[y][x]);
             fade.setFromValue(1d);
             fade.setToValue(0d);
+            fade.setOnFinished(event -> {
+                fades.remove(fade);
+                loadHighlight(x, y, game.getSquareState(x, y));
+            });
+            fades.add(fade);
             fade.play();
         } catch (EndOfGameException e) {
             endGame();
@@ -136,7 +140,7 @@ public class GameController {
             if (game.getPieceType(x, y) != PieceType.NONE && game.getPieceColor(x, y) == game.getCurrentPlayerColor()) {
                 makeSelection(x, y);
             } else {
-                makeMove(x, y);
+                makeMove(x, y, null);
             }
         } else {
             makeSelection(x, y);
