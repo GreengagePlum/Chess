@@ -6,33 +6,19 @@ import java.util.ListIterator;
 
 public final class King extends RoyalPiece {
 
-    private boolean inCheck;
-    private final List<Piece> attackingPieces;
+    private boolean moved;
 
     public King(Color color) {
         super(color);
-        inCheck = false;
-        attackingPieces = new LinkedList<>();
+        moved = false;
     }
 
-    public boolean isInCheck() {
-        return inCheck;
+    public boolean hasMoved() {
+        return moved;
     }
 
-    public void setInCheck(boolean inCheck) {
-        this.inCheck = inCheck;
-    }
-
-    public void addAttackingPiece(Piece piece) {
-        attackingPieces.add(piece);
-    }
-
-    public void clearAttackingPieces() {
-        attackingPieces.clear();
-    }
-
-    public ListIterator<Piece> getAttackingPieces() {
-        return attackingPieces.listIterator();
+    void setMoved(boolean moved) {
+        this.moved = moved;
     }
 
     @Override
@@ -71,12 +57,50 @@ public final class King extends RoyalPiece {
         return true;
     }
 
+    private boolean castlingCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        if (destinationCoords.y == sourceCoords.y && !hasMoved() && !isInCheck()) {
+            List<Piece> rooks = board.getPieces(Rook.class, getColor());
+            rooks.removeIf(r -> ((Rook) r).hasMoved());
+            if (destinationCoords.x - sourceCoords.x == -2) {
+                for (Piece r :
+                        rooks) {
+                    Coordinates rookCoords = board.findPiece(r);
+                    if (rookCoords.x - sourceCoords.x < 0) {
+                        Coordinates tmp = new Coordinates(sourceCoords.x - 1, sourceCoords.y);
+                        for (; !tmp.equals(rookCoords); tmp.x--) {
+                            if (board.getSquare(tmp).getPiece() != null || !dangerCheck(tmp, board)) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+            } else if (destinationCoords.x - sourceCoords.x == 2) {
+                for (Piece r :
+                        rooks) {
+                    Coordinates rookCoords = board.findPiece(r);
+                    if (rookCoords.x - sourceCoords.x > 0) {
+                        Coordinates tmp = new Coordinates(sourceCoords.x + 1, sourceCoords.y);
+                        for (; !tmp.equals(rookCoords); tmp.x++) {
+                            if (board.getSquare(tmp).getPiece() != null || !dangerCheck(tmp, board)) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     protected boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         return coordinateCheck(destinationCoords)
                 && dangerCheck(destinationCoords, board)
                 && destinationPieceCheck(destinationCoords, board)
-                && pathCheck(sourceCoords, destinationCoords);
+                && (pathCheck(sourceCoords, destinationCoords)
+                || castlingCheck(sourceCoords, destinationCoords, board));
     }
 
     @Override
@@ -109,6 +133,15 @@ public final class King extends RoyalPiece {
             result.add(new Coordinates(x, y));
         }
         y = sourceCoords.y + 1;
+        if (checker.accept(sourceCoords, new Coordinates(x, y), board)) {
+            result.add(new Coordinates(x, y));
+        }
+        x = sourceCoords.x - 2;
+        y = sourceCoords.y;
+        if (checker.accept(sourceCoords, new Coordinates(x, y), board)) {
+            result.add(new Coordinates(x, y));
+        }
+        x = sourceCoords.x + 2;
         if (checker.accept(sourceCoords, new Coordinates(x, y), board)) {
             result.add(new Coordinates(x, y));
         }

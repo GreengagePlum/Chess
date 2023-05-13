@@ -3,29 +3,50 @@ package me.erken.efe.chess.model;
 import java.util.Stack;
 
 public class MoveHistory {
-    private final Stack<Move> history;
+    private final Stack<Move> past;
+    private final Stack<Move> future;
 
     public MoveHistory() {
-        history = new Stack<>();
+        past = new Stack<>();
+        future = new Stack<>();
     }
 
-    public void addMove(Move move) {
-        history.push(move);
+    public void doMove(Move move, Board board) throws IllegalMoveException {
+        move.doMove(board);
+        past.push(move);
+        future.clear();
     }
 
-    public Move getRemoveMove() {
-        return history.pop();
+    public void redoMove(Board board) throws IllegalMoveException {
+        if (!future.isEmpty()) {
+            Move m = future.pop();
+            m.doMove(board);
+            past.push(m);
+        }
+    }
+
+    public void undoMove() {
+        if (!past.isEmpty()) {
+            Move m = past.pop();
+            m.undoMove();
+            future.push(m);
+        }
     }
 
     public Move lastMove() {
-        return history.peek();
+        // can be made so that it respects encapsulation (clone() ?)
+        return past.peek();
     }
 
     public int moveCount() {
-        return history.size();
+        return past.size();
     }
 
-    public boolean isEmpty() {
-        return history.isEmpty();
+    public boolean isEmptyPast() {
+        return past.isEmpty();
+    }
+
+    public boolean isEmptyFuture() {
+        return future.isEmpty();
     }
 }

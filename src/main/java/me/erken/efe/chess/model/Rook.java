@@ -11,6 +11,15 @@ public final class Rook extends RegularPiece {
 
     public Rook(Color color) {
         super(color);
+        moved = false;
+    }
+
+    public boolean hasMoved() {
+        return moved;
+    }
+
+    void setMoved(boolean moved) {
+        this.moved = moved;
     }
 
     @Override
