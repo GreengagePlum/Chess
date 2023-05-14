@@ -88,10 +88,10 @@ public class TestBishop {
         b.getSquare(new Coordinates(2, 4)).setPiece(p2);
         King k = new King(Color.BLACK);
         b.getSquare(new Coordinates(4, 2)).setPiece(k);
-        Assertions.assertFalse(p2.isKingProtector());
+        Assertions.assertFalse(p2.isRoyalProtector());
         p.updateAllPositions(source, b);
         p.setKingProtectorsInPath(source, b);
-        Assertions.assertTrue(p2.isKingProtector());
+        Assertions.assertTrue(p2.isRoyalProtector());
     }
 
     @Test

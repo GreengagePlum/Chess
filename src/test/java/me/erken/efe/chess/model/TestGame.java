@@ -30,7 +30,8 @@ public class TestGame {
         b.clearKingsCheck();
         b.clearStateSquares();
         b.clearDangerSquares();
-        b.calculateAllPieces(Color.BLACK);
+        MoveHistory mh = new MoveHistory();
+        b.calculateAllPieces(Color.BLACK, mh);
         Assertions.assertEquals(0, WB1.legalPositionsCount());
     }
 
@@ -59,7 +60,8 @@ public class TestGame {
         b.clearKingsCheck();
         b.clearStateSquares();
         b.clearDangerSquares();
-        b.calculateAllPieces(Color.BLACK);
+        MoveHistory mh = new MoveHistory();
+        b.calculateAllPieces(Color.BLACK, mh);
         Assertions.assertEquals(0, WK.legalPositionsCount());
     }
 
@@ -82,7 +84,8 @@ public class TestGame {
         b.clearStateSquares();
         b.clearDangerSquares();
         b.clearPieceKingProtectors();
-        b.calculateAllPieces(Color.WHITE);
+        MoveHistory mh = new MoveHistory();
+        b.calculateAllPieces(Color.WHITE, mh);
         Assertions.assertEquals(2, BK.legalPositionsCount());
         Player p2 = new Player(Color.BLACK);
         p2.makeSelection(b.getSquare(sourceBK), b);
