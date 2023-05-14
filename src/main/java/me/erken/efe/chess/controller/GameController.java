@@ -59,6 +59,13 @@ public class GameController {
         gameGridImages[y][x].setImage((pathToSprite == null) ? null : new Image(pathToSprite));
     }
 
+    private void loadPieces(List<Coordinates> concernedCoords) {
+        for (Coordinates c :
+                concernedCoords) {
+            loadPiece(c.x, c.y, game.getPieceType(c.x, c.y));
+        }
+    }
+
     private void loadHighlight(int x, int y, SquareState sq) {
         gameGridRectangles[y][x].setFill(Constants.ColorPalette.getColor(sq));
         gameGridRectangles[y][x].setOpacity(Constants.ColorPalette.getOpacity(sq));

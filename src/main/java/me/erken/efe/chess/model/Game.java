@@ -85,6 +85,7 @@ public class Game extends Board {
         }
         currentPlayer.makeMove(board.getSquare(new Coordinates(x, y)), history, board, rank);
         postMoveSequence();
+        return history.lastMove().concernedCoords(board);
     }
 
     private void postMoveSequence() {
