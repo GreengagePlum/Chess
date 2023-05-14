@@ -123,6 +123,8 @@ public class GameController {
             });
             fades.add(fade);
             fade.play();
+        } catch (PawnPromotionException e) {
+            makeMove(x, y, pawnPromotionChoice());
         } catch (EndOfGameException e) {
             endGame();
         } finally {
@@ -152,6 +154,34 @@ public class GameController {
         } else {
             makeSelection(x, y);
         }
+    }
+
+    private String pawnPromotionChoice() {
+        // Create an Alert dialog with CONFIRMATION AlertType
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Promotion de pion");
+        alert.setHeaderText("Quelle promotion voulez-vous ?");
+        alert.setContentText("Faites votre choix de pièce");
+
+        // Add two buttons to the Alert dialog
+        ButtonType buttonTypeQueen = new ButtonType("Dame");
+        ButtonType buttonTypeRook = new ButtonType("Tour");
+        ButtonType buttonTypeBishop = new ButtonType("Fou");
+        ButtonType buttonTypeKnight = new ButtonType("Cavalier");
+
+        alert.getButtonTypes().setAll(buttonTypeQueen, buttonTypeRook, buttonTypeBishop, buttonTypeKnight);
+        Optional<ButtonType> choice = alert.showAndWait();
+        String result = choice.map(ButtonType::getText).orElse(null);
+        if (result == null) {
+            return null;
+        }
+        return switch (result) {
+            case "Dame" -> Queen.class.getSimpleName();
+            case "Tour" -> Rook.class.getSimpleName();
+            case "Fou" -> Bishop.class.getSimpleName();
+            case "Cavalier" -> Knight.class.getSimpleName();
+            default -> result;
+        };
     }
 
     private void endGame() {
