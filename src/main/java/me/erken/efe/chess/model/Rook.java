@@ -156,7 +156,7 @@ public final class Rook extends RegularPiece {
         if (kingPos.y == sourceCoords.y) {
             yEvolution = 0;
         } else {
-            yEvolution = ((kingPos.x - sourceCoords.x < 0) ? -1 : 1);
+            yEvolution = ((kingPos.y - sourceCoords.y < 0) ? -1 : 1);
         }
         Coordinates tmp = new Coordinates(sourceCoords.x + xEvolution, sourceCoords.y + yEvolution);
         while (!tmp.equals(kingPos)) {
