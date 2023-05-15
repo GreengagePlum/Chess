@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public final class Pawn extends Piece {
+public final class Pawn extends RegularPiece {
 
     private boolean firstMove;
 
@@ -20,6 +20,10 @@ public final class Pawn extends Piece {
 
     public void consumeFirstMove() {
         firstMove = false;
+    }
+
+    public void resetFirstMove() {
+        firstMove = true;
     }
 
     private boolean isDiagMove(Coordinates sourceCoords, Coordinates destinationCoords) {
@@ -51,8 +55,13 @@ public final class Pawn extends Piece {
     }
 
     @Override
-    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+    protected boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
         return pathCheckStraight(sourceCoords, destinationCoords) || pathCheckDiag(sourceCoords, destinationCoords);
+    }
+
+    @Override
+    protected boolean destinationPieceCheck(Coordinates destinationCoords, Board board) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
     }
 
     private boolean destinationPieceCheck(Coordinates destinationCoords, Board board, boolean diagMove) {
@@ -63,8 +72,40 @@ public final class Pawn extends Piece {
         return destPiece == null;
     }
 
+    private boolean enPassantCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board, MoveHistory moveHistory) {
+        int yEvolution = (this.getColor() == Color.WHITE) ? -1 : 1;
+        if (Math.abs(destinationCoords.x - sourceCoords.x) != 1 || destinationCoords.y - sourceCoords.y != yEvolution) {
+            return false;
+        }
+        Piece leftPiece;
+        try {
+            leftPiece = board.getSquare(new Coordinates(sourceCoords.x - 1, sourceCoords.y)).getPiece();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            leftPiece = null;
+        }
+        if (destinationCoords.x - sourceCoords.x == -1 && leftPiece instanceof Pawn && leftPiece.getColor() != getColor()) {
+            Move lastMove = moveHistory.lastMove();
+            if (lastMove instanceof RegularMove && ((RegularMove) lastMove).getDestination().getPiece() == leftPiece && Math.abs(board.findSquare(((RegularMove) lastMove).getSource()).y - board.findSquare(((RegularMove) lastMove).getDestination()).y) == 2) {
+                return true;
+            }
+        }
+        Piece rightPiece;
+        try {
+            rightPiece = board.getSquare(new Coordinates(sourceCoords.x + 1, sourceCoords.y)).getPiece();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            rightPiece = null;
+        }
+        if (destinationCoords.x - sourceCoords.x == 1 && rightPiece instanceof Pawn && rightPiece.getColor() != getColor()) {
+            Move lastMove = moveHistory.lastMove();
+            if (lastMove instanceof RegularMove && ((RegularMove) lastMove).getDestination().getPiece() == rightPiece && Math.abs(board.findSquare(((RegularMove) lastMove).getSource()).y - board.findSquare(((RegularMove) lastMove).getDestination()).y) == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
-    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    protected boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         if (!firstMove && destinationCoords.x != sourceCoords.x) {
             return true;
         }
@@ -82,9 +123,14 @@ public final class Pawn extends Piece {
 
     @Override
     protected boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+        return false;
+    }
+
+    boolean isLegalPosition(Coordinates sourceCoords, Coordinates destinationCoords, Board board, MoveHistory history) {
         return coordinateCheck(destinationCoords)
                 && destinationPieceCheck(destinationCoords, board, isDiagMove(sourceCoords, destinationCoords))
-                && (pathCheck(sourceCoords, destinationCoords) && obstructionCheck(sourceCoords, destinationCoords, board));
+                && (pathCheck(sourceCoords, destinationCoords) && obstructionCheck(sourceCoords, destinationCoords, board))
+                || (coordinateCheck(destinationCoords) && enPassantCheck(sourceCoords, destinationCoords, board, history));
     }
 
     @Override
@@ -115,14 +161,40 @@ public final class Pawn extends Piece {
         return result;
     }
 
+    private List<Coordinates> traversePath(Coordinates sourceCoords, Board board, MoveHistory history, Predicate4<Coordinates, Coordinates, Board, MoveHistory> checker) {
+        List<Coordinates> result = new LinkedList<>();
+        int yEvolution = (this.getColor() == Color.WHITE) ? -1 : 1;
+        Coordinates check = new Coordinates(sourceCoords.x - 1, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board, history)) {
+            result.add(check);
+        }
+        check = new Coordinates(sourceCoords.x + 1, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board, history)) {
+            result.add(check);
+        }
+        check = new Coordinates(sourceCoords.x, sourceCoords.y + yEvolution);
+        if (checker.accept(sourceCoords, check, board, history)) {
+            result.add(check);
+        }
+        check = new Coordinates(sourceCoords.x, sourceCoords.y + 2 * yEvolution);
+        // can be optimized for firstMove
+        if (checker.accept(sourceCoords, check, board, history)) {
+            result.add(check);
+        }
+        return result;
+    }
+
     @Override
     public void updateLegalPositions(Coordinates sourceCoords, Board board) {
+    }
+
+    void updateLegalPositions(Coordinates sourceCoords, Board board, MoveHistory history) {
         legalPositions.clear();
         King k = board.getKing(this.getColor());
-        if (k.isInCheck() && this.isKingProtector()) {
+        if (k.isInCheck() && this.isRoyalProtector()) {
             return;
         }
-        List<Coordinates> possibilities = traversePath(sourceCoords, board, this::isLegalPosition);
+        List<Coordinates> possibilities = traversePath(sourceCoords, board, history, this::isLegalPosition);
         if (k.isInCheck()) {
             for (Iterator<Coordinates> iterator = possibilities.iterator(); iterator.hasNext(); ) {
                 Coordinates pos = iterator.next();
@@ -131,12 +203,13 @@ public final class Pawn extends Piece {
                     // can be optimized for jumping pieces (like Knights)
                     if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
+                        break;
                     }
                 }
             }
-        } else if (this.isKingProtector()) {
-            Coordinates threat = board.findPiece(this.getKingProtectorCausingPiece());
-            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getKingProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
+        } else if (this.isRoyalProtector()) {
+            Coordinates threat = board.findPiece(this.getRoyalProtectorCausingPiece());
+            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getRoyalProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
         }
         legalPositions.addAll(possibilities);
         setOppositeKingToCheck(board);
@@ -146,6 +219,16 @@ public final class Pawn extends Piece {
     public void updateAttackingPositions(Coordinates sourceCoords, Board board) {
         attackingPositions.clear();
         attackingPositions.addAll(traversePath(sourceCoords, board, this::isAttackingPosition));
+    }
+
+    @Override
+    public void updateAllPositions(Coordinates sourceCoords, Board board) {
+    }
+
+    public void updateAllPositions(Coordinates sourceCoords, Board board, MoveHistory history) {
+        // can be optimized
+        updateLegalPositions(sourceCoords, board, history);
+        updateAttackingPositions(sourceCoords, board);
     }
 
     @Override

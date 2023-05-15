@@ -5,25 +5,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public final class Queen extends Piece {
+public final class Queen extends RegularPiece {
     public Queen(Color color) {
         super(color);
     }
 
     @Override
-    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+    protected boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
         return (!sourceCoords.equals(destinationCoords) && Math.abs(destinationCoords.x - sourceCoords.x) == Math.abs(destinationCoords.y - sourceCoords.y))
                 || ((destinationCoords.x == sourceCoords.x && destinationCoords.y != sourceCoords.y)
                 || (destinationCoords.x != sourceCoords.x && destinationCoords.y == sourceCoords.y));
     }
 
-    private boolean destinationPieceCheck(Coordinates destinationCoords, Board board) {
-        Piece destPiece = board.getSquare(destinationCoords).getPiece();
-        return destPiece == null || destPiece.getColor() != this.getColor();
-    }
-
     @Override
-    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    protected boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         int xEvolution, yEvolution;
         if (destinationCoords.x == sourceCoords.x) {
             xEvolution = 0;
@@ -134,10 +129,10 @@ public final class Queen extends Piece {
     }
 
     @Override
-    public void updateLegalPositions(Coordinates sourceCoords, Board board) {
+    protected void updateLegalPositions(Coordinates sourceCoords, Board board) {
         legalPositions.clear();
         King k = board.getKing(this.getColor());
-        if (k.isInCheck() && this.isKingProtector()) {
+        if (k.isInCheck() && this.isRoyalProtector()) {
             return;
         }
         List<Coordinates> possibilities = traversePath(sourceCoords, board, this::isLegalPosition);
@@ -149,26 +144,27 @@ public final class Queen extends Piece {
                     // can be optimized for jumping pieces (like Knights)
                     if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
+                        break;
                     }
                 }
             }
-        } else if (this.isKingProtector()) {
-            Coordinates threat = board.findPiece(this.getKingProtectorCausingPiece());
-            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getKingProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
+        } else if (this.isRoyalProtector()) {
+            Coordinates threat = board.findPiece(this.getRoyalProtectorCausingPiece());
+            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getRoyalProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
         }
         legalPositions.addAll(possibilities);
         setOppositeKingToCheck(board);
     }
 
     @Override
-    public void updateAttackingPositions(Coordinates sourceCoords, Board board) {
+    protected void updateAttackingPositions(Coordinates sourceCoords, Board board) {
         attackingPositions.clear();
         attackingPositions.addAll(traversePath(sourceCoords, board, this::isAttackingPosition));
         setKingProtectorsInPath(sourceCoords, board);
     }
 
     @Override
-    public void setKingProtectorsInPath(Coordinates sourceCoords, Board board) {
+    protected void setKingProtectorsInPath(Coordinates sourceCoords, Board board) {
         for (Coordinates pos :
                 attackingPositions) {
             Piece p = board.getSquare(pos).getPiece();
@@ -178,8 +174,8 @@ public final class Queen extends Piece {
                         secondJump) {
                     Piece p2 = board.getSquare(pos2).getPiece();
                     if (p2 instanceof King && p2.getColor() != getColor() && pathCheck(sourceCoords, pos2) && canMoveInOneGo(sourceCoords, pos, pos2)) {
-                        p.setKingProtector(true);
-                        p.setKingProtectorCausingPiece(this);
+                        p.setRoyalProtector(true);
+                        p.setRoyalProtectorCausingPiece(this);
                     }
                 }
             }

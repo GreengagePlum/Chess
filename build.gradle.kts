@@ -2,13 +2,13 @@ plugins {
     id("java")
     id("application")
     id("idea")
-    id("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.openjfx.javafxplugin") version "0.0.14"
     id("org.beryx.jlink") version "2.26.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "me.erken.efe.chess"
-version = "1.0.0"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -23,14 +23,25 @@ tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
-tasks.jar {
-    manifest {
-        from("MANIFEST.MF")
+tasks {
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+
+    compileTestJava {
+        options.encoding = "UTF-8"
+    }
+
+    jar {
+        manifest {
+            from("MANIFEST.MF")
+        }
     }
 }
 
 application {
     mainClass.set("me.erken.efe.chess.main.Main")
+    mainModule.set("me.erken.efe.chess")
 }
 
 javafx {

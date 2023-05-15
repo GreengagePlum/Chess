@@ -1,5 +1,8 @@
 package me.erken.efe.chess.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Game extends Board {
     private final Board board;
     private final Player player1, player2;
@@ -14,7 +17,7 @@ public class Game extends Board {
         currentPlayer = player1;
         history = new MoveHistory();
         gameEndCause = GameEndCause.NONE;
-        board.calculateAllPieces((currentPlayer.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK);
+        board.calculateAllPieces((currentPlayer.getColor() == Color.BLACK) ? Color.WHITE : Color.BLACK, history);
     }
 
     public SquareState getSquareState(int x, int y) {
@@ -50,6 +53,10 @@ public class Game extends Board {
         return currentPlayer.getColor();
     }
 
+    public int getMoveCount() {
+        return history.moveCount();
+    }
+
     public boolean isEnded() {
         return gameEndCause != GameEndCause.NONE;
     }
@@ -77,19 +84,20 @@ public class Game extends Board {
         currentPlayer.makeSelection(board.getSquare(new Coordinates(x, y)), board);
     }
 
-    public void makeMove(int x, int y) throws EndOfGameException, IllegalMoveException {
+    public List<Coordinates> makeMove(int x, int y, String rank) throws EndOfGameException, IllegalMoveException, PawnPromotionException {
         if (isEnded()) {
             throw new EndOfGameException();
         }
-        currentPlayer.makeMove(board.getSquare(new Coordinates(x, y)), history, board);
+        currentPlayer.makeMove(board.getSquare(new Coordinates(x, y)), history, board, rank);
         postMoveSequence();
+        return history.lastMove().concernedCoords(board);
     }
 
     private void postMoveSequence() {
         board.clearDangerSquares();
         board.clearKingsCheck();
         board.clearPieceKingProtectors();
-        board.calculateAllPieces(currentPlayer.getColor());
+        board.calculateAllPieces(currentPlayer.getColor(), history);
         advanceTurn(); //?? maybe at the end (not the right place/order here)
         updateIsEndGame();
     }
@@ -105,5 +113,33 @@ public class Game extends Board {
         } else {
             gameEndCause = (noViableMoves) ? GameEndCause.STALEMATE : GameEndCause.NONE;
         }
+    }
+
+    public List<Coordinates> undoMove() {
+        currentPlayer.clearSelection();
+        board.clearStateSquares();
+        List<Coordinates> updatedCoords;
+        if (!history.isEmptyPast()) {
+            updatedCoords = history.lastMove().concernedCoords(board);
+            history.undoMove();
+            postMoveSequence();
+        } else {
+            updatedCoords = new LinkedList<>();
+        }
+        return updatedCoords;
+    }
+
+    public List<Coordinates> redoMove() throws IllegalMoveException {
+        currentPlayer.clearSelection();
+        board.clearStateSquares();
+        List<Coordinates> updatedCoords;
+        if (!history.isEmptyFuture()) {
+            history.redoMove(board);
+            postMoveSequence();
+            updatedCoords = history.lastMove().concernedCoords(board);
+        } else {
+            updatedCoords = new LinkedList<>();
+        }
+        return updatedCoords;
     }
 }

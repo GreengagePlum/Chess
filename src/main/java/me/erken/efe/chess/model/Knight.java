@@ -5,13 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public final class Knight extends Piece {
+public final class Knight extends RegularPiece {
     public Knight(Color color) {
         super(color);
     }
 
     @Override
-    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+    protected boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
         return (destinationCoords.y == sourceCoords.y - 2 && destinationCoords.x == sourceCoords.x - 1)
                 || (destinationCoords.y == sourceCoords.y - 1 && destinationCoords.x == sourceCoords.x - 2)
                 || (destinationCoords.y == sourceCoords.y + 1 && destinationCoords.x == sourceCoords.x - 2)
@@ -23,13 +23,8 @@ public final class Knight extends Piece {
     }
 
     @Override
-    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    protected boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         return true;
-    }
-
-    private boolean destinationPieceCheck(Coordinates destinationCoords, Board board) {
-        Piece destPiece = board.getSquare(destinationCoords).getPiece();
-        return destPiece == null || destPiece.getColor() != this.getColor();
     }
 
     @Override
@@ -83,10 +78,10 @@ public final class Knight extends Piece {
     }
 
     @Override
-    public void updateLegalPositions(Coordinates sourceCoords, Board board) {
+    protected void updateLegalPositions(Coordinates sourceCoords, Board board) {
         legalPositions.clear();
         King k = board.getKing(this.getColor());
-        if (k.isInCheck() && this.isKingProtector()) {
+        if (k.isInCheck() && this.isRoyalProtector()) {
             return;
         }
         List<Coordinates> possibilities = traversePath(sourceCoords, board, this::isLegalPosition);
@@ -98,19 +93,20 @@ public final class Knight extends Piece {
                     // can be optimized for jumping pieces (like Knights)
                     if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
+                        break;
                     }
                 }
             }
-        } else if (this.isKingProtector()) {
-            Coordinates threat = board.findPiece(this.getKingProtectorCausingPiece());
-            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getKingProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
+        } else if (this.isRoyalProtector()) {
+            Coordinates threat = board.findPiece(this.getRoyalProtectorCausingPiece());
+            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getRoyalProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
         }
         legalPositions.addAll(possibilities);
         setOppositeKingToCheck(board);
     }
 
     @Override
-    public void updateAttackingPositions(Coordinates sourceCoords, Board board) {
+    protected void updateAttackingPositions(Coordinates sourceCoords, Board board) {
         attackingPositions.clear();
         attackingPositions.addAll(traversePath(sourceCoords, board, this::isAttackingPosition));
     }

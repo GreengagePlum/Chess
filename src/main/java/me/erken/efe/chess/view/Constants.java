@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Constants {
     public static class SpriteMap {
-        private static final String spriteDir = "View/Sprites/";
+        private static final String spriteDir = "/View/Sprites/";
         private static final Map<PieceType, String> pairs;
 
         static {

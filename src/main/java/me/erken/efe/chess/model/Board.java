@@ -1,5 +1,7 @@
 package me.erken.efe.chess.model;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ListIterator;
 
 public class Board {
@@ -94,6 +96,32 @@ public class Board {
         return null;
     }
 
+    public <T extends Piece> List<Piece> getPieces(Class<T> pieceType) {
+        List<Piece> result = new LinkedList<>();
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                Piece p = grid[y][x].getPiece();
+                if (pieceType.isInstance(p)) {
+                    result.add(p);
+                }
+            }
+        }
+        return result;
+    }
+
+    public <T extends Piece> List<Piece> getPieces(Class<T> pieceType, Color color) {
+        List<Piece> result = new LinkedList<>();
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                Piece p = grid[y][x].getPiece();
+                if (pieceType.isInstance(p) && p.getColor() == color) {
+                    result.add(p);
+                }
+            }
+        }
+        return result;
+    }
+
     public King getKing(Color color) {
         return (color == Color.BLACK) ? kingBlack : kingWhite;
     }
@@ -158,19 +186,23 @@ public class Board {
         }
     }
 
-    public void calculateAllPieces(Color firstColorToProcess) {
-        calculateColorPieces(firstColorToProcess);
+    public void calculateAllPieces(Color firstColorToProcess, MoveHistory history) {
+        calculateColorPieces(firstColorToProcess, history);
         updateDangerSquares(firstColorToProcess);
-        calculateColorPieces((firstColorToProcess == Color.BLACK) ? Color.WHITE : Color.BLACK);
+        calculateColorPieces((firstColorToProcess == Color.BLACK) ? Color.WHITE : Color.BLACK, history);
         updateDangerSquares((firstColorToProcess == Color.BLACK) ? Color.WHITE : Color.BLACK);
     }
 
-    private void calculateColorPieces(Color currentColor) {
+    private void calculateColorPieces(Color currentColor, MoveHistory history) {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 Piece p = grid[y][x].getPiece();
                 if (p != null && p.getColor() == currentColor) {
-                    p.updateAllPositions(new Coordinates(x, y), this);
+                    if (p instanceof Pawn) {
+                        ((Pawn) p).updateAllPositions(new Coordinates(x, y), this, history);
+                    } else {
+                        p.updateAllPositions(new Coordinates(x, y), this);
+                    }
                 }
             }
         }
@@ -194,7 +226,7 @@ public class Board {
             for (int x = 0; x < WIDTH; x++) {
                 Piece p = grid[y][x].getPiece();
                 if (p != null) {
-                    p.setKingProtector(false);
+                    p.setRoyalProtector(false);
                     p.clearKingProtectorCausingPiece();
                 }
             }

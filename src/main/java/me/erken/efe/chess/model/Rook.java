@@ -5,24 +5,31 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public final class Rook extends Piece {
+public final class Rook extends RegularPiece {
+
+    private boolean moved;
+
     public Rook(Color color) {
         super(color);
+        moved = false;
+    }
+
+    public boolean hasMoved() {
+        return moved;
+    }
+
+    void setMoved(boolean moved) {
+        this.moved = moved;
     }
 
     @Override
-    boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
+    protected boolean pathCheck(Coordinates sourceCoords, Coordinates destinationCoords) {
         return (destinationCoords.x == sourceCoords.x && destinationCoords.y != sourceCoords.y)
                 || (destinationCoords.x != sourceCoords.x && destinationCoords.y == sourceCoords.y);
     }
 
-    private boolean destinationPieceCheck(Coordinates destinationCoords, Board board) {
-        Piece destPiece = board.getSquare(destinationCoords).getPiece();
-        return destPiece == null || destPiece.getColor() != this.getColor();
-    }
-
     @Override
-    boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
+    protected boolean obstructionCheck(Coordinates sourceCoords, Coordinates destinationCoords, Board board) {
         int xEvolution, yEvolution;
         if (destinationCoords.x == sourceCoords.x) {
             xEvolution = 0;
@@ -83,7 +90,7 @@ public final class Rook extends Piece {
     public void updateLegalPositions(Coordinates sourceCoords, Board board) {
         legalPositions.clear();
         King k = board.getKing(this.getColor());
-        if (k.isInCheck() && this.isKingProtector()) {
+        if (k.isInCheck() && this.isRoyalProtector()) {
             return;
         }
         List<Coordinates> possibilities = traversePath(sourceCoords, board, this::isLegalPosition);
@@ -95,12 +102,13 @@ public final class Rook extends Piece {
                     // can be optimized for jumping pieces (like Knights)
                     if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
+                        break;
                     }
                 }
             }
-        } else if (this.isKingProtector()) {
-            Coordinates threat = board.findPiece(this.getKingProtectorCausingPiece());
-            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getKingProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
+        } else if (this.isRoyalProtector()) {
+            Coordinates threat = board.findPiece(this.getRoyalProtectorCausingPiece());
+            possibilities.removeIf(pos -> (!pos.equals(threat) && !(this.getRoyalProtectorCausingPiece().posInPathLeadingToKing(threat, pos, board))));
         }
         legalPositions.addAll(possibilities);
         setOppositeKingToCheck(board);
@@ -124,8 +132,8 @@ public final class Rook extends Piece {
                         secondJump) {
                     Piece p2 = board.getSquare(pos2).getPiece();
                     if (p2 instanceof King && p2.getColor() != getColor() && pathCheck(sourceCoords, pos2)) {
-                        p.setKingProtector(true);
-                        p.setKingProtectorCausingPiece(this);
+                        p.setRoyalProtector(true);
+                        p.setRoyalProtectorCausingPiece(this);
                     }
                 }
             }
@@ -148,7 +156,7 @@ public final class Rook extends Piece {
         if (kingPos.y == sourceCoords.y) {
             yEvolution = 0;
         } else {
-            yEvolution = ((kingPos.x - sourceCoords.x < 0) ? -1 : 1);
+            yEvolution = ((kingPos.y - sourceCoords.y < 0) ? -1 : 1);
         }
         Coordinates tmp = new Coordinates(sourceCoords.x + xEvolution, sourceCoords.y + yEvolution);
         while (!tmp.equals(kingPos)) {
