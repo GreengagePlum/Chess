@@ -3,7 +3,7 @@ package me.erken.efe.chess.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PawnPromotionMove extends Move {
+public final class PawnPromotionMove extends Move {
 
     public final Square source, destination;
     public final Piece oldSelf, newSelf;

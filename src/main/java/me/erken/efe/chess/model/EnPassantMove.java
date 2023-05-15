@@ -3,7 +3,7 @@ package me.erken.efe.chess.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EnPassantMove extends Move {
+public final class EnPassantMove extends Move {
 
     public final Square source, destination, victim;
     public final Piece takenPiece;
