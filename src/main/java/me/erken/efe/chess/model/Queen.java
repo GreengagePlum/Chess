@@ -144,6 +144,7 @@ public final class Queen extends RegularPiece {
                     // can be optimized for jumping pieces (like Knights)
                     if ((!p.legalPositionsContains(pos) || !p.posInPathLeadingToKing(board.findPiece(p), pos, board)) && !pos.equals(board.findPiece(p))) {
                         iterator.remove();
+                        break;
                     }
                 }
             }
