@@ -85,16 +85,14 @@ OpenJDK Runtime Environment (build 11.0.18+10-post-Ubuntu-0ubuntu120.04.1)
 OpenJDK 64-Bit Server VM (build 11.0.18+10-post-Ubuntu-0ubuntu120.04.1, mixed mode, sharing)
 ```
 
-J'assure le fonctionnement du jeu avec un minimum **Java 11**, mais je vous conseille fortement **Java 17** (j'ai testé
-extensivement avec cette version).
+J'assure le fonctionnement du jeu avec **Java 17** et je vous le conseille fortement (j'ai testé extensivement avec
+cette version).
 
 ## Commandes d'utilisation
 
 ### Comment compiler et exécuter ?
 
-D'abord, pour compiler, installez au minimum un JDK Java **version 11**. Si en plus, vous voulez utiliser la
-tâche `jpackage` de Gradle pour produire un exécutable et un installeur natif à votre système, installez au minimum un
-JDK Java **version 14** (préférablement **17**).
+D'abord, pour compiler, installez au minimum un JDK Java **version 17**.
 
 Puis téléchargez le projet sur votre machine avec `git clone` ou en téléchargeant l'archive du projet.
 
