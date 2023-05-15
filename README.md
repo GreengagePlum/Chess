@@ -3,7 +3,7 @@
 Vous trouverez ici le projet de l'UE Programmation Orienté Objet 2. Le sujet du projet, le rapport et les diagrammes UML
 se trouvent sous `extras/`.
 
-![Un aperçu de l'interface graphique du jeu](images/example.png)
+![Un aperçu de l'interface graphique du jeu](images/example.png "L'interface graphique")
 
 ## Étudiants
 
@@ -17,63 +17,91 @@ Groupes : TD2-TP4
 
 Voici, vous pouvez trouver les problèmes que j'ai eus lors du développement et comment je les ai résolus (ou pas).
 
-[//]: # (### Superposition joueur-objectif)
+### Grille de jeu
 
-[//]: # ()
+Pour modéliser le plateau de jeu, j'ai créé un conteneur représentant chaque case qui peut contenir une piece ou pas
+ainsi que d'autres informations comme le danger de la case et le statut de selection (quand le joueur sélectionne une
+case pour jouer une piece et voir les cases auxquelles bouger). J'ai créé un tableau à deux dimensions de ces cases pour
+représenter la grille de jeu.
 
-[//]: # (Dans la première version v1.0.0 où on devait juste gérer le mouvement du joueur dans le vide et sur les objectifs, j'étais bloqué car j'arrivais pas à passer le joueur sur les objectifs. Ceci était dû au fait que mon implémentation de départ était problématique. Pour bouger le joueur dans le sens voulu, j'échangeais la case dans le sens voulu et la case où se situait le joueur. Cette méthode ne marchait bien que quand la case dans le sens voulu était vide. Si elle était un objectif, cela revenait à modifier l'emplacement de l'objectif. J'ai dû repenser mon approche.)
+### Les pieces
 
-[//]: # ()
+Pour les pieces, j'ai créé une classe abstraite, mais à un moment, j'ai dû séparer les pieces royales et les pieces
+normales, car seule une piece normale peut mettre une piece royale en échec. J'ai dû encore étendre cette classe
+abstraite avec d'autres classes abstraites pour specifier plus le type de piece et sa capacité au lieu d'avoir des
+surdéfinitions vides de méthodes.
 
-[//]: # (J'ai passé à une méthode conditionnelle où en fonction des cases concernées, je modifie manuellement ces cases. J'ai dû étendre les représentations des cases dans la structure de jeu pour représenter la superposition du joueur avec un objectif. Grâce à cela, j'ai pu gérer le mouvement sans bouger les emplacements des objectifs et sans utiliser d'autres champs de données dans la structure de jeu pour stocker les positions de chaque objectif.)
+### Le mouvement des pieces
+
+J'ai dû inventer un système de calcul de danger pour chaque case pour éviter des coups illégaux par le roi. Mais aussi
+un système de calcul des coordonnées légal pour d'autres pieces en cas d'échec pour ne permettre que des coups légaux
+(des coups qui sauvent le roi seulement). Pour cela, j'ai rajouté plein de méthodes et j'ai structuré le calcul des
+coups pour chaque piece à une suite de verifications qui sont utilisé par une methode qui traverse tous les coups
+possibles pour chaque piece qui sont par après éliminé encore s'il y a un cas d'échec ou de danger. Ils sont finalement
+rajouté à la liste des coordonnées possibles de la piece. Chaque piece vérifie si les coordonnées de sa destination
+sont dans la grille, sont bien dans son modèle de mouvement ainsi que d'autres verifications supplémentaires comme s'il
+n'y a bien aucune autre piece entre la piece et sa destination pour des pieces qui ne sautent pas et verifications pour
+des coups spéciaux que la piece peut avoir (en passant pour le pion par exemple).
+
+### La boucle du jeu
+
+J'ai fait en sorte que les pieces de la couleur opposée à celle qui va jouer un juste apres calculer leurs coups d'abord
+pour déterminer le danger avant le calcul de l'autre couleur qui a besoin de cette information pour trouver les bons
+coups possibles.
+
+La classe "Game" est le point central de la logique du jeu. Il gere la boucle en assurant le calcul des coups, leur
+effectuation, avancement des tours, l'historique des coups et la determination de la fin du jeu.
+
+### Interface graphique
+
+J'ai utilisé JavaFX et FXML pour l'interface graphique. J'ai utilisé un GridPane de 8 colonnes et 8 lignes avec des
+StackPane dans chaque case qui contiennent elles-mêmes des images et des rectangles pour afficher les pieces et la
+couleur des cases en cas de selection.
+
+Par après, j'ai aussi ajouté des boutons (annuler, refaire, recommencer) et des alerts (qu'est-ce qu'il faut faire à la
+fin du jeu) pour plus d'interaction avec l'utilisateur.
 
 ## Versions JDK
 
-J'ai utilisé comme JDK Oracle OpenJDK.
+J'ai utilisé comme binaires de JDK Java les suivant : Oracle OpenJDK, Oracle JDK et Eclipse Temurin OpenJDK by Adoptium.
 
 J'ai fait attention à tester mon programme sur les machines de l'UFR pour vérifier les erreurs avant de rendre sur
 Moodle.
 
-Ci-dessous sont les versions de JDK que j'ai utilisées.
+Ci-dessous sont les versions de JDK que j'ai le plus utilisées lors du développement sur ma machine personnelle et à
+l'UFR.
 
 ```
-openjdk 19.0.2 2023-01-17
-OpenJDK Runtime Environment Homebrew (build 19.0.2)
-OpenJDK 64-Bit Server VM Homebrew (build 19.0.2, mixed mode, sharing)
+openjdk 17.0.7 2023-04-18
+OpenJDK Runtime Environment Homebrew (build 17.0.7+0)
+OpenJDK 64-Bit Server VM Homebrew (build 17.0.7+0, mixed mode, sharing)
 
-openjdk 17.0.6 2023-01-17
-OpenJDK Runtime Environment Homebrew (build 17.0.6+0)
-OpenJDK 64-Bit Server VM Homebrew (build 17.0.6+0, mixed mode, sharing)
-
-openjdk 11.0.18 2023-01-17
-OpenJDK Runtime Environment Homebrew (build 11.0.18+0)
-OpenJDK 64-Bit Server VM Homebrew (build 11.0.18+0, mixed mode)
+openjdk 11.0.19 2023-04-18
+OpenJDK Runtime Environment Homebrew (build 11.0.19+0)
+OpenJDK 64-Bit Server VM Homebrew (build 11.0.19+0, mixed mode)
 
 openjdk 11.0.18 2023-01-17
 OpenJDK Runtime Environment (build 11.0.18+10-post-Ubuntu-0ubuntu120.04.1)
 OpenJDK 64-Bit Server VM (build 11.0.18+10-post-Ubuntu-0ubuntu120.04.1, mixed mode, sharing)
 ```
 
+J'assure le fonctionnement du jeu avec un minimum **Java 11**, mais je vous conseille fortement **Java 17** (j'ai testé
+extensivement avec cette version).
+
 ## Commandes d'utilisation
 
 ### Comment compiler et exécuter ?
 
-D'abord, installez au minimum Java 11.
+D'abord, pour compiler, installez au minimum un JDK Java **version 11**. Si en plus, vous voulez utiliser la
+tâche `jpackage` de Gradle pour produire un exécutable et un installeur natif à votre système, installez au minimum un
+JDK Java **version 14** (préférablement **17**).
 
-Puis téléchargez le projet sur votre machine avec une des commandes qui suivent :
-
-```
-git clone https://git.unistra.fr/erken/sokoban.git
-```
-
-ou
-
-```
-git clone git@git.unistra.fr:erken/sokoban.git
-```
+Puis téléchargez le projet sur votre machine avec `git clone` ou en téléchargeant l'archive du projet.
 
 Une fois c'est fait, rendez-vous dans le répertoire du projet et compilez. Les fichiers compilés se trouvent
-sous `build/` et le fichier unique `.jar` sous `build/libs/`.
+sous `build/` et le fichier unique `.jar` sous `build/libs/`. Si c'est votre première fois à compiler, cela peut prendre
+un peu de temps. Merci de patienter.
+**Attention** si vous êtes sous Windows, utilisez `gradlew.bat` au lieu de `./gradlew`.
 
 ```
 cd chess/
@@ -82,15 +110,15 @@ cd chess/
 ```
 
 Désormais, vous pouvez exécuter le jeu tant que vous êtes dans le répertoire de celui-ci. Ou normalement, vous pouvez
-double cliquer sur le `.jar` annoté `-all` pour lancer.
+double cliquer sur le `.jar` annoté `-all` (ou la commande `java -jar <archive .jar>`) à condition que votre
+installation Java soit bien fait (environnement de variable pour la bonne version de Java bien configuré (`JAVA_HOME`)
+ainsi que l'application par défaut pour lancer les fichiers `.jar`).
 
 ```
 ./gradlew run
 ```
 
 ### Génération de la documentation
-
-D'abord, installez les dépendances avec votre gestionnaire de paquets (apt, dnf, apk, etc.) : **javadoc**.
 
 Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un œil au
 fichier `build/docs/javadoc/index.html` dans votre navigateur de web préféré.
@@ -103,7 +131,7 @@ fichier `build/docs/javadoc/index.html` dans votre navigateur de web préféré.
 
 Pour nettoyer le répertoire du projet pour repartir à zéro :
 
-Effacer les fichiers de compilation, executable final et la javadoc (build/*).
+Effacer les fichiers de compilation, executable final et la javadoc (`build/*`).
 
 ```
 ./gradlew clean
@@ -111,7 +139,7 @@ Effacer les fichiers de compilation, executable final et la javadoc (build/*).
 
 ## Dépôt Git
 
-Le dépôt git de [ce projet](https://git.unistra.fr/erken/sokoban) suit une structure claire et déterminée proposée par
+Le dépôt git de [ce projet](https://git.unistra.fr/erken/chess) suit une structure claire et déterminée proposée par
 Vincent Driessen à son
 poste [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/).
 
