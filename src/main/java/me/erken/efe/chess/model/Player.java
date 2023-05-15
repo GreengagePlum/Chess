@@ -17,7 +17,7 @@ public class Player {
         selection = square;
     }
 
-    private void clearSelection() {
+    protected void clearSelection() {
         selection = null;
     }
 

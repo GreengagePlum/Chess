@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import me.erken.efe.chess.model.*;
 import me.erken.efe.chess.view.Constants;
@@ -20,6 +21,8 @@ import java.util.*;
 public class GameController {
     private final List<FadeTransition> fades = new ArrayList<>();
     private Game game;
+    @FXML
+    private Text moveCount;
     @FXML
     private GridPane gameGrid;
     private ImageView[][] gameGridImages;
@@ -45,6 +48,11 @@ public class GameController {
                 }
             }
         }
+        loadGame();
+    }
+
+    public void newGame() {
+        game = new Game();
         loadGame();
     }
 
@@ -88,6 +96,11 @@ public class GameController {
                 loadHighlight(x, y, game.getSquareState(x, y));
             }
         }
+        updateMoveCount();
+    }
+
+    private void updateMoveCount() {
+        moveCount.setText(String.valueOf(game.getMoveCount()));
     }
 
     private void makeSelection(int x, int y) {
@@ -128,6 +141,7 @@ public class GameController {
         } catch (EndOfGameException e) {
             endGame();
         } finally {
+            updateMoveCount();
             loadAllHighlights();
         }
     }
@@ -153,6 +167,24 @@ public class GameController {
             }
         } else {
             makeSelection(x, y);
+        }
+    }
+
+    public void undoMove() {
+        loadPieces(game.undoMove());
+        updateMoveCount();
+        loadAllHighlights();
+    }
+
+    public void redoMove() {
+        try {
+            loadPieces(game.redoMove());
+        } catch (IllegalMoveException e) {
+            // can be improved but technically impossible to get here anyway
+            throw new RuntimeException(e);
+        } finally {
+            updateMoveCount();
+            loadAllHighlights();
         }
     }
 
@@ -202,8 +234,27 @@ public class GameController {
         // Show the Alert dialog and wait for user response
         alert.showAndWait().ifPresent(response -> {
             if (response == buttonTypeYes) {
-                game = new Game();
-                loadGame();
+                newGame();
+            }
+        });
+    }
+
+    public void newGameDialog() {
+        // Create an Alert dialog with CONFIRMATION AlertType
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Recommencer la partie");
+        alert.setContentText("Êtes-vous sûr de recommencer ?");
+
+        // Add two buttons to the Alert dialog
+        ButtonType buttonTypeYes = new ButtonType("Oui");
+        ButtonType buttonTypeNo = new ButtonType("Non");
+
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+        // Show the Alert dialog and wait for user response
+        alert.showAndWait().ifPresent(response -> {
+            if (response == buttonTypeYes) {
+                newGame();
             }
         });
     }

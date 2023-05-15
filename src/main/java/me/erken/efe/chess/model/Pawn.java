@@ -22,6 +22,10 @@ public final class Pawn extends RegularPiece {
         firstMove = false;
     }
 
+    public void resetFirstMove() {
+        firstMove = true;
+    }
+
     private boolean isDiagMove(Coordinates sourceCoords, Coordinates destinationCoords) {
         return Math.abs(destinationCoords.x - sourceCoords.x) == 1 && Math.abs(destinationCoords.y - sourceCoords.y) == 1;
     }

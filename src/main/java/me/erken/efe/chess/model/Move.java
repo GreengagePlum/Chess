@@ -24,4 +24,6 @@ public abstract class Move {
     protected abstract void doMove(Board board) throws IllegalMoveException;
 
     protected abstract void undoMove();
+
+    protected abstract Piece getOriginPiece();
 }

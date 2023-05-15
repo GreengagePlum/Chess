@@ -28,7 +28,11 @@ public class MoveHistory {
     public void undoMove() {
         if (!past.isEmpty()) {
             Move m = past.pop();
-            m.undoMove();
+            if (m instanceof RegularMove) {
+                ((RegularMove) m).undoMove(past);
+            } else {
+                m.undoMove();
+            }
             future.push(m);
         }
     }

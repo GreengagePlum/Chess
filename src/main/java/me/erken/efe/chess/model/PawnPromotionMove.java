@@ -60,4 +60,9 @@ public class PawnPromotionMove extends Move {
             setExecuted(false);
         }
     }
+
+    @Override
+    protected Piece getOriginPiece() {
+        return oldSelf;
+    }
 }

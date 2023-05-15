@@ -1,5 +1,6 @@
 package me.erken.efe.chess.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game extends Board {
@@ -50,6 +51,10 @@ public class Game extends Board {
 
     public Color getCurrentPlayerColor() {
         return currentPlayer.getColor();
+    }
+
+    public int getMoveCount() {
+        return history.moveCount();
     }
 
     public boolean isEnded() {
@@ -108,5 +113,33 @@ public class Game extends Board {
         } else {
             gameEndCause = (noViableMoves) ? GameEndCause.STALEMATE : GameEndCause.NONE;
         }
+    }
+
+    public List<Coordinates> undoMove() {
+        currentPlayer.clearSelection();
+        board.clearStateSquares();
+        List<Coordinates> updatedCoords;
+        if (!history.isEmptyPast()) {
+            updatedCoords = history.lastMove().concernedCoords(board);
+            history.undoMove();
+            postMoveSequence();
+        } else {
+            updatedCoords = new LinkedList<>();
+        }
+        return updatedCoords;
+    }
+
+    public List<Coordinates> redoMove() throws IllegalMoveException {
+        currentPlayer.clearSelection();
+        board.clearStateSquares();
+        List<Coordinates> updatedCoords;
+        if (!history.isEmptyFuture()) {
+            history.redoMove(board);
+            postMoveSequence();
+            updatedCoords = history.lastMove().concernedCoords(board);
+        } else {
+            updatedCoords = new LinkedList<>();
+        }
+        return updatedCoords;
     }
 }

@@ -49,4 +49,13 @@ public class EnPassantMove extends Move {
             setExecuted(false);
         }
     }
+
+    @Override
+    protected Piece getOriginPiece() {
+        if (isExecuted()) {
+            return destination.getPiece();
+        } else {
+            return source.getPiece();
+        }
+    }
 }

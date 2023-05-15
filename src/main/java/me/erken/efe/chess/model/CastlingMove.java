@@ -59,4 +59,13 @@ public final class CastlingMove extends Move {
             setExecuted(false);
         }
     }
+
+    @Override
+    protected Piece getOriginPiece() {
+        if (isExecuted()) {
+            return destinationKing.getPiece();
+        } else {
+            return sourceKing.getPiece();
+        }
+    }
 }
