@@ -25,14 +25,16 @@
 ## Configuration
 
 - [ ] Complete MANIFEST.MF
-- [ ] Implement jlink
-- [ ] Implement jpackage
 - [ ] Implement docker
 - [ ] Configure CI/CD
+  - [ ] Continuous integration deploys
+    - [ ] Implement jlink
+    - [ ] Implement jpackage
+  - [ ] Continuous integration docs publishing
 
 ## Miscellaneous
 
-- [ ] Deploy on the web
+- [ ] Deploy on the web (a web interface/client)
 
 ## Done
 
