@@ -1,77 +1,66 @@
 # Chess
 
-Vous trouverez ici le projet de l'UE Programmation Orienté Objet 2. Le sujet du projet, le rapport et les diagrammes UML
-se trouvent sous `extras/`.
+[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
+[![fr](https://img.shields.io/badge/lang-fr-yellow.svg)](README.fr.md)
 
-![Un aperçu de l'interface graphique du jeu](images/example.png "L'interface graphique")
+You can find here the project for the "Object Oriented Programming 2" class. The project paper, the report and the UML diagrammes can be found under `extras/`.
 
-## Étudiants
+It consists of a simple (multiplayer only) Chess game made entirely in Java from scratch with a [JavaFX](https://openjfx.io/) graphical interface.
+
+![A preview of the graphical interface of the game](images/example.png "Graphical interface")
+
+## Students
 
 **Efe ERKEN**
 
-Année : L2S4 Printemps 2023
+Year: 2nd year 4th semester Spring 2023
 
-Groupes : TD2-TP4
+Groups: TD2-TP4
 
-## Problèmes rencontrés
+## Problems encountered
 
-Voici, vous pouvez trouver les problèmes que j'ai eus lors du développement et comment je les ai résolus (ou pas).
+Here, you can find the problems I had during development and how I solved them (or not).
 
-### Grille de jeu
+### Game grid
 
-Pour modéliser le plateau de jeu, j'ai créé un conteneur représentant chaque case qui peut contenir une piece ou pas
-ainsi que d'autres informations comme le danger de la case et le statut de selection (quand le joueur sélectionne une
-case pour jouer une piece et voir les cases auxquelles bouger). J'ai créé un tableau à deux dimensions de ces cases pour
-représenter la grille de jeu.
+To model the game board, I created a container representing each square that can contain a piece or not
+as well as other information like the danger of the square and the selection status (when the player selects a square to play a piece and see the squares to which it can move). I created a two dimensional array of these squares to represent the game grid.
 
-### Les pieces
+### The pieces
 
-Pour les pieces, j'ai créé une classe abstraite, mais à un moment, j'ai dû séparer les pieces royales et les pieces
-normales, car seule une piece normale peut mettre une piece royale en échec. J'ai dû encore étendre cette classe
-abstraite avec d'autres classes abstraites pour specifier plus le type de piece et sa capacité au lieu d'avoir des
-surdéfinitions vides de méthodes.
+For the pieces, I created an abstract class, but at a certain point, I had to separate the royal pieces et and the normal pieces since only a normal piece can put a royal piece in check. I had to again extend this abstract class with other abstract classes to further specify the piece type and its capacity rather than having empty method overrides.
 
-### Le mouvement des pieces
+### The movement of pieces
 
-J'ai dû inventer un système de calcul de danger pour chaque case pour éviter des coups illégaux par le roi. Mais aussi
-un système de calcul des coordonnées légal pour d'autres pieces en cas d'échec pour ne permettre que des coups légaux
-(des coups qui sauvent le roi seulement). Pour cela, j'ai rajouté plein de méthodes et j'ai structuré le calcul des
-coups pour chaque piece à une suite de verifications qui sont utilisé par une methode qui traverse tous les coups
-possibles pour chaque piece qui sont par après éliminé encore s'il y a un cas d'échec ou de danger. Ils sont finalement
-rajouté à la liste des coordonnées possibles de la piece. Chaque piece vérifie si les coordonnées de sa destination
-sont dans la grille, sont bien dans son modèle de mouvement ainsi que d'autres verifications supplémentaires comme s'il
-n'y a bien aucune autre piece entre la piece et sa destination pour des pieces qui ne sautent pas et verifications pour
-des coups spéciaux que la piece peut avoir (en passant pour le pion par exemple).
+I had to invent a danger calculation system for each square to avoid illegal moves by the king. But also
+a legal coordinate calculation system for other pieces in case of a check to only allow legal moves
+(moves that save the king only). For this, I added many methods and I structured the move calculations for each piece to a suite of checks which are used by a method which traverses all the possible moves
+for each piece which are then filtered again if there is a case of check or danger. They are finally added
+to the list of possible coordinates for the piece. Each piece checks if its destination coordinates are inside the grid, are well in its movement pattern as well as other additional checks like checking if there are no other piece between itself and its destination for the pieces which are not leapers and and some checks for the special moves that piece can have ("en passant" for the pawn for exemple).
 
-### La boucle du jeu
+### The game loop
 
-J'ai fait en sorte que les pieces de la couleur opposée à celle qui va jouer un juste apres calculer leurs coups d'abord
-pour déterminer le danger avant le calcul de l'autre couleur qui a besoin de cette information pour trouver les bons
-coups possibles.
+I made it so that the pieces of the opposite color to that which will move, calculate their moves first
+to determine the danger before before the calculation of the opposite color, which needs this information to find true possible moves.
 
-La classe "Game" est le point central de la logique du jeu. Il gere la boucle en assurant le calcul des coups, leur
-effectuation, avancement des tours, l'historique des coups et la determination de la fin du jeu.
+The `Game` class is the central point of the game logic. It manages the loop by ensuring the move calculations, their execution, advancing of turns, the history of moves and the deciding of the end of the game.
 
-### Interface graphique
+### Graphical interface
 
-J'ai utilisé JavaFX et FXML pour l'interface graphique. J'ai utilisé un GridPane de 8 colonnes et 8 lignes avec des
-StackPane dans chaque case qui contiennent elles-mêmes des images et des rectangles pour afficher les pieces et la
-couleur des cases en cas de selection.
+I used JavaFX and FXML for the graphical interface. I used a `GridPane` of 8 columns and 8 rows along with
+`StackPane`s in each square which contain themselves images and rectangles to display the pieces and the color of squares in case they are selected.
 
-Par après, j'ai aussi ajouté des boutons (annuler, refaire, recommencer) et des alerts (qu'est-ce qu'il faut faire à la
-fin du jeu) pour plus d'interaction avec l'utilisateur.
+Later on, I also added buttons (annuler (undo), refaire (redo), recommencer (restart)) and alerts (what to do at the end of the game) for more interaction with the user.
 
-## Versions JDK
+## JDK versions
 
-J'ai utilisé comme binaires de JDK Java les suivant : Oracle OpenJDK, Oracle JDK et Eclipse Temurin OpenJDK by Adoptium.
+I used the following Java JDK binaries: Oracle OpenJDK, Oracle JDK et Eclipse Temurin OpenJDK by Adoptium.
 
-J'ai fait attention à tester mon programme sur les machines de l'UFR pour vérifier les erreurs avant de rendre sur
-Moodle.
+I paid attention to test my program on the faculty's machines to check for errors before submitting on Moodle.
 
-Ci-dessous sont les versions de JDK que j'ai le plus utilisées lors du développement sur ma machine personnelle et à
-l'UFR.
+Below are the JDK versions that I used the most during development on my personal machine and at the faculty.
 
-```
+```text
 openjdk 17.0.7 2023-04-18
 OpenJDK Runtime Environment Homebrew (build 17.0.7+0)
 OpenJDK 64-Bit Server VM Homebrew (build 17.0.7+0, mixed mode, sharing)
@@ -85,78 +74,80 @@ OpenJDK Runtime Environment (build 11.0.18+10-post-Ubuntu-0ubuntu120.04.1)
 OpenJDK 64-Bit Server VM (build 11.0.18+10-post-Ubuntu-0ubuntu120.04.1, mixed mode, sharing)
 ```
 
-J'assure le fonctionnement du jeu avec **Java 17** et je vous le conseille fortement (j'ai testé extensivement avec
-cette version).
+The game is ensured working with **Java 17** and I highly recommend it to you (I tested thoroughly with this version).
 
-## Commandes d'utilisation
+## Usage
 
-### Comment compiler et exécuter ?
+### How to compile and execute?
 
-D'abord, pour compiler, installez au minimum un JDK Java **version 17**.
+First, to compile, install at least a **version 17** Java JDK.
 
-Puis téléchargez le projet sur votre machine avec `git clone` ou en téléchargeant l'archive du projet.
+Then, download the project on your machine with `git clone` or by downloading the archive of the project.
 
-Une fois c'est fait, rendez-vous dans le répertoire du projet et compilez. Les fichiers compilés se trouvent
-sous `build/` et le fichier unique `.jar` sous `build/libs/`. Si c'est votre première fois à compiler, cela peut prendre
-un peu de temps. Merci de patienter.
-**Attention** si vous êtes sous Windows, utilisez `gradlew.bat` au lieu de `./gradlew`.
+Once that's done, go to the project's directory and compile. The compiled files are found under
+`build/` and the unique `.jar` file under `build/libs/`. If it's your first time compiling, it could take a bit of time. **Attention** if you're on Windows, use `gradlew.bat` instead of `./gradlew`.
 
-```
+```sh
 cd chess/
 
 ./gradlew build
 ```
 
-Désormais, vous pouvez exécuter le jeu tant que vous êtes dans le répertoire de celui-ci. Ou normalement, vous pouvez
-double cliquer sur le `.jar` annoté `-all` (ou la commande `java -jar <archive .jar>`) à condition que votre
-installation Java soit bien fait (environnement de variable pour la bonne version de Java bien configuré (`JAVA_HOME`)
-ainsi que l'application par défaut pour lancer les fichiers `.jar`).
+Henceforth, you can execute the game as long as you are in its directory. Or normally, you can
+double click on the `.jar` suffixed `-all` (or the `java -jar <*.jar>` command) depending on if you're Java installation is correct (environment variable for the correct version of Java configured (`JAVA_HOME`) as well as the default application to launch the `.jar` files).
 
-```
+```sh
 ./gradlew run
 ```
 
-### Génération de la documentation
+### Generating the documentation
 
-Pour générer la documentation pour votre copie du programme, utilisez la commande suivante et jeter un œil au
-fichier `build/docs/javadoc/index.html` dans votre navigateur de web préféré.
+To generate the documentation for your copy of the program, use the following command and take a look at the `build/docs/javadoc/index.html` file in your favorite web browser.
 
-```
+```sh
 ./gradlew javadoc
 ```
 
-### Comment nettoyer ?
+### Run the tests
 
-Pour nettoyer le répertoire du projet pour repartir à zéro :
+To run the unit tests, run this command:
 
-Effacer les fichiers de compilation, executable final et la javadoc (`build/*`).
-
+```sh
+./gradlew test
 ```
+
+### How to clean?
+
+To clean the project directory to start from zero:
+
+Delete the compilation files, the final executable and the documentation (`build/*`).
+
+```sh
 ./gradlew clean
 ```
 
-## Dépôt Git
+## Git repository
 
-Le dépôt git de [ce projet](https://git.unistra.fr/erken/chess) suit une structure claire et déterminée proposée par
-Vincent Driessen à son
-poste [A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/).
+The git repository of [this project](https://greengageplum.github.io/sokoban/) follows a clear and determined
+structure put forth by Vincent Driessen in his
+post "[A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)".
 
-Du coup ne soyez pas surpris par le fait que `branch main` n'a presque pas de commit. Tout le développement se passe sur
-le `branch develop`. Avant chaque version, tout est préparé et assuré fonctionnel pour être inauguré au `branch main`
-qui n'a que des versions stables et complètes.
+So don't be surprised by the fact that the `main branch` has few commits. All the development is happening on
+the `develop branch`. Before each version, everything is prepared and guaranteed functional to be merged
+into `main branch` which only has stable and complete versions.
 
-### Légende emoji
+### Emoji legend
 
-La signification des emojis utilisé dans les descriptions des commits git.
+These are the meanings of the emojis used in the git commit messages. See [gitmoji](https://gitmoji.dev/) also.
 
-| Emoji       | Signification                                                         |
-|:------------|:----------------------------------------------------------------------|
-| ✨ NEW       | Nouveau fichier ou fonctionnalité                                     |
-| 🔧 UPDATE   | Mise à jour d'une partie de programme                                 |
-| 🔨 CONFIG   | Manipulation des fichiers de configuration comme makefile ou doxyfile |
-| ♻️ REFACTOR | Réécriture d'une partie du programme                                  |
-| 🐛 BUGFIX   | Une correction de bogue                                               |
-| 🔥 DELETION | Suppression d'un fichier ou d'une fonctionnalité                      |
-| 📝 DOC      | Manipulation de la documentation                                      |
-| 🎉 EPOCH    | Le début du projet                                                    |
-| 🚀 RELEASE  | Une nouvelle version du programme                                     |
+| Emoji       | Signification                                      |
+|:------------|:---------------------------------------------------|
+| ✨ NEW      | New file or feature                                |
+| 🔧 UPDATE   | Update of a part of the program                    |
+| 🔨 CONFIG   | Changes in config files like makefile and doxyfile |
+| ♻️  REFACTOR | Rewrite of a part of the program                   |
+| 🐛 BUGFIX   | A bug fix                                          |
+| 🔥 DELETION | Removal of a file or a feature                     |
+| 📝 DOC      | Changes in the documentation                       |
+| 🎉 EPOCH    | The beginning of the project                       |
+| 🚀 RELEASE  | A new version of the program                       |
