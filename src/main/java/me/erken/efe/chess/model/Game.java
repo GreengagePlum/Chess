@@ -3,7 +3,7 @@ package me.erken.efe.chess.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Game extends Board {
+public class Game {
     private final Board board;
     private final Player player1, player2;
     private final MoveHistory history;
