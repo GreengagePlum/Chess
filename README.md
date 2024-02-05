@@ -30,7 +30,7 @@ as well as other information like the danger of the square and the selection sta
 
 For the pieces, I created an abstract class, but at a certain point, I had to separate the royal pieces et and the normal pieces since only a normal piece can put a royal piece in check. I had to again extend this abstract class with other abstract classes to further specify the piece type and its capacity rather than having empty method overrides.
 
-### The movement of pieces
+### The movement of the pieces
 
 I had to invent a danger calculation system for each square to avoid illegal moves by the king. But also
 a legal coordinate calculation system for other pieces in case of a check to only allow legal moves
