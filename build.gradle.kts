@@ -5,6 +5,7 @@ plugins {
     id("org.openjfx.javafxplugin") version "0.0.14"
     id("org.beryx.jlink") version "2.26.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.adarshr.test-logger") version "3.2.0"
 }
 
 group = "me.erken.efe.chess"
